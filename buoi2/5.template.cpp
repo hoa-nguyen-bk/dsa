@@ -10,41 +10,27 @@ using namespace std;
 // DRY => dont repeat yourself
 // + template
 
-int sum(int a, int b){
-
-};
-
-float sum(float a, float b){
-
-};
-
-double sum(double a, double b){
-
-};
-
-// cùng kdl
 template <class T>
-T sum(T a, T b)
+struct Node
 {
-  return a + b;
-}
+  T data;
+  Node *next;
+};
 
-// khác kdl
-template <class T, class Y>
-T sumk(T a, Y b)
-{
-  return a + b;
-}
-
+template <class T>
 class SSL
 {
+private:
+  Node<T> *head;
+
+public:
+  void createList(){};
+  void insert(){};
+  void del(){};
 };
 
 int main()
 {
-  int a = sum(2, 3);
-  float b = sum(2.1, 2.2);
-  double c = sumk(2.3, 1);
-  cout << a << b << c;
+  SSL<int> Linkedlist;
   return 0;
 }
