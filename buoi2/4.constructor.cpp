@@ -6,32 +6,33 @@ using namespace std;
 // - các thuộc tính oop
 // +Tính đóng gói encapsulation: gom tất cả và gói gọn lại trong class student
 // +Constructor
-class student
+// +Inheritance -> kế thừa
+// DRY => dont repeat yourself
+class people
 {
 private:
-  int ID = 10;
+  int ID = 0;
 
-public: // các đối tượng bên ngoài có thể truy cập vào bên trong class
-  // constructor
-  student(int ID)
-  {
-    this->ID = ID;
-    cout << "Hello" << endl;
-  }
-  // destructor
-  ~student()
-  {
-    cout << "Good bye" << endl;
-  }
+public:
   void callName()
   {
-    cout << ID;
+    cout << ID << endl;
+  };
+};
+// thuộc tính protected đem xún class con được, nhưng private thì ko
+
+class student : public people
+{
+  void print()
+  {
+    cout << "stu";
   }
 };
 int main()
 {
-  student A(5);
-  A.callName(); // có hiện duy nhất name vì nó được quyền truy cập vào name
-  // vậy nếu muốn id ko đổi được thì để id vào private
+  people A;
+  A.callName();
+  student B;
+  B.callName();
   return 0;
 }
