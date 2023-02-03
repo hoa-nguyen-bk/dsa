@@ -22,12 +22,29 @@ double sum(double a, double b){
 
 };
 
+// cùng kdl
+template <class T>
+T sum(T a, T b)
+{
+  return a + b;
+}
+
+// khác kdl
+template <class T, class Y>
+T sumk(T a, Y b)
+{
+  return a + b;
+}
+
 class SSL
 {
 };
 
 int main()
 {
-
+  int a = sum(2, 3);
+  float b = sum(2.1, 2.2);
+  double c = sumk(2.3, 1);
+  cout << a << b << c;
   return 0;
 }
