@@ -48,7 +48,7 @@ int infix_cal(const string &input)
 int main()
 {
   string input;
-  // cin >> input;
-  cout << infix_cal("12 + 11");
+  getline(cin, input);
+  cout << infix_cal(input);
   return 0;
 }
