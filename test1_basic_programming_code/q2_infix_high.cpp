@@ -13,7 +13,7 @@ int mymin(int x, int y) { return x - y;}
 int mymul(int x, int y) { return x * y;}
 int mydiv(int x, int y) { return x / y;}
 
-int infix_cal(string s)
+int infix_cal(const string &input)
 {
     action actions[] = {
         {"+", myadd},
@@ -21,14 +21,14 @@ int infix_cal(string s)
         {"*", mymul},
         {"/", mydiv}
     };
-    int x = stoi(s.substr(0, s.find(" ")));
-    s = s.substr(s.find(" ") + 1);
-    while (s.find(" ") != -1)
+    int x = stoi(input.substr(0, input.find(" ")));
+    string operation = input.substr(input.find(" ") + 1);
+    while (operation.find(" ") != -1)
     {
-        string op = s.substr(0, s.find(" "));
-        s = s.substr(s.find(" ") + 1);
-        int y = stoi(s.substr(0, s.find(" ")));
-        s = s.substr(s.find(" ") + 1);
+        string op = operation.substr(0, operation.find(" "));
+        operation = operation.substr(operation.find(" ") + 1);
+        int y = stoi(operation.substr(0, operation.find(" ")));
+        operation = operation.substr(operation.find(" ") + 1);
         for (int i = 0; i < 4; i++)
         {
             if (actions[i].op == op)
