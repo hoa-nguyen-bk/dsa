@@ -12,18 +12,18 @@ using namespace std;
 
 int infix_cal(const string &input)
 {
-  cout << "input = " << input << endl;
+  // cout << "input = " << input << endl;
   int space_1 = input.find(" ");
   int space_2 = input.find(" ", space_1 + 1);
 
   string num1_convert = input.substr(0, space_1);
   string operand_convert = input.substr(space_1 + 1, 1);
   string num2_convert = input.substr(space_2 + 1);
-  cout << "space_1 = " << space_1 << "; space_2 = " << space_2 << endl;
+  // cout << "space_1 = " << space_1 << "; space_2 = " << space_2 << endl;
   int num_1 = stoi(num1_convert);
   char operand = operand_convert[0];
   int num_2 = stoi(num2_convert);
-  cout << "num_1 = " << num_1 << "; operand = " << operand << "; num_2 = " << num_2 << endl;
+  // cout << "num_1 = " << num_1 << "; operand = " << operand << "; num_2 = " << num_2 << endl;
   int result;
   switch (operand)
   {
