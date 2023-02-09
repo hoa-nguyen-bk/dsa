@@ -50,7 +50,6 @@ int infix_cal(const string &input)
   string operand_convert = input.substr(space_1 + 1, 1);
   string num2_convert = input.substr(space_2 + 1);
   int num_1 = stoi(num1_convert);
-  char operand = operand_convert[0];
   int num_2 = stoi(num2_convert);
   int result = 0;
 

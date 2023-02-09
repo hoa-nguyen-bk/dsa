@@ -2,7 +2,7 @@
 #include <string>
 using namespace std;
 
-int infix_call(const string &input)
+int infix_cal(const string &input)
 {
   // b1: tìm dấu cách
   // string space_1 = input.find(" ");
@@ -24,6 +24,7 @@ int infix_call(const string &input)
 
   // b4: tính
   int result;
+  // nhớ là chỉ được ' chứ ko được " nha chưa
   switch (operator_charactor)
   {
   case '+':
