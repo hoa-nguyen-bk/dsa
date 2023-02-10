@@ -1,6 +1,7 @@
 #include <iostream>
 using namespace std;
-
+//thầy kêu làm bài tập và coi slide
+//15 tuần có 3 tuần blended, còn 1 tuần blended nưuax
 // Nội dung buổi 2
 // - class
 // - các thuộc tính oop
