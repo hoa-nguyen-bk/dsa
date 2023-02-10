@@ -27,12 +27,12 @@ class SLL
 {
 private:
   Node<T> *head = nullptr;
+
+public:
   SLL()
   {
     head = nullptr;
   }
-
-public:
   // arrD là mảng data
   void insert(T *arrD, int size)
   {
@@ -40,7 +40,7 @@ public:
     for (int i = 0; i < size; i++)
     {
       // tạo node mới có data là arr = 0 , next là null
-      Node<T> *node(arrD[i]);
+      Node<T>* node = new Node<T>(arrD[i]);
       if (head == nullptr)
       {
         head = node;
@@ -66,6 +66,10 @@ public:
   // có 3 vị trí để insert, insert vô đầu/giữa/cuối: insertH, insertM, insertT;
 
   //với import zô giữa
+  // có p0->p1->p2. giờ mún thêm p3 vô giữa p1 và p2 thành p0->p1->p3->p2
+  // giờ mún thêm an toàn xài cách p3 -> p2 trước, p1 -> p3
+  // tmp = p1->next
+  // tmp 
   //với import node zô đầu
   //cho head node đó = node đầu
    
@@ -78,6 +82,8 @@ public:
     Node<T> *tmp = head;
     while (tmp != nullptr)
     {
+      // in ra 
+      cout << tmp->data << " -> ";
       // trỏ tới node tiếp theo
       tmp = tmp->next;
       // bây giờ tmp đang ở địa chỉ tiếp theo
@@ -89,7 +95,9 @@ int main()
 {
 
   int arr[5] = {1, 2, 3, 4, 5};
-  // SLL<int> sll;
+  SLL<int> sll;
+  sll.insert(arr, 5);
+  sll.print();
 
   // int arr[] = {1, 2, 3};
   // arr là địa chỉ, của thằng đầu tiên trong mảng
