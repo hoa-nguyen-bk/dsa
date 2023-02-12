@@ -34,6 +34,16 @@ public:
     head = nullptr;
   }
   // arrD là mảng data
+  // có 3 vị trí để insert, insert vô đầu/giữa/cuối: insertH, insertM, insertT;
+
+  //với import zô giữa
+  // có p0->p1->p2. giờ mún thêm p3 vô giữa p1 và p2 thành p0->p1->p3->p2
+  // giờ mún thêm an toàn xài cách p3 -> p2 trước, p1 -> p3
+  // tmp = p1->next
+  // tmp 
+  //với import node zô đầu
+  //cho head node đó = node đầu
+   
   void insert(T *arrD, int size)
   {
     // vì *arrD là một địa chỉ, chỉ có 8 byte nên phải có địa chỉ để dễ chia
@@ -63,16 +73,18 @@ public:
       }
     }
   }
-  // có 3 vị trí để insert, insert vô đầu/giữa/cuối: insertH, insertM, insertT;
-
-  //với import zô giữa
-  // có p0->p1->p2. giờ mún thêm p3 vô giữa p1 và p2 thành p0->p1->p3->p2
-  // giờ mún thêm an toàn xài cách p3 -> p2 trước, p1 -> p3
-  // tmp = p1->next
-  // tmp 
-  //với import node zô đầu
-  //cho head node đó = node đầu
-   
+  
+  //khi xóa thì chỉ cấn đổi pointer cho cái trước đó. Mà chú ý đến memory leak, khi 1 chương trình chạy, thì phải xin cấp phát vùng nhớ, thì có một số vùng nhớ ko cần xài đến, nhưng hệ đìu hành cũng ko làm đc gì nó
+  // b1: xóa ra khỏi linked list
+  // delN = p1->next;
+  // p1->next=p2;
+  // delete delN;
+  // b2: delete(giải phóng memory)
+  // xóa các node đầu, giữa, cuối
+  // về làm cho kỹ 2 phần này
+  // thứ nhất insert node tại pos bất kì
+  // thứ hai del node tại pos bất kì
+  // tracer tại vị trí bất kì
   void del(T data);
   // in  ra giá trị các phần tử trong linked list
   // vậy nên cần duyệt
