@@ -5,8 +5,12 @@ using namespace std;
 // memory management
 // IDE: Dev C, clion (của thầy), vs code
 
-//bài tập tổng quát
+//TODO: bài tập tổng quát
 // void insertPos(T data, int pos)
+// <=0 -> head
+// 1 < mid <= n-1
+// >=n tail
+
 
 template <class T>
 struct Node
@@ -14,6 +18,7 @@ struct Node
   T data;
   Node *next;
   // này gọi là constructor, tự động gọi khi tạo object
+  // nếu ko có constructor thì khi tạo dữ liệu cho A. A.
   Node(T data)
   {
     this->data = data;
@@ -119,6 +124,7 @@ int main()
   // Node<int> A;
   // A.data = 5;
   // A.next = nullptr;
-  // 3 dòng này thay thế bởi 1 cái nào đó
+  // 3 dòng này thay thế bởi 1 dòng dưới do Node trên ko có constructor, nhưng node dưới thì có
+  // Node<int> A(5);
   return 0;
 }
