@@ -9,6 +9,10 @@ using namespace std;
 //+ protect: public, protected->protected, protected
 //+ private: public, protected->privated, private
 
+//chủ  nhật dạy doubly linked list
+//complexity
+//sort
+
 class people
 {
 public:
