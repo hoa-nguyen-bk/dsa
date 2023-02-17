@@ -24,6 +24,8 @@ public:
     {
       head = nullptr;
     }
+    void insert(T data);
+    //nhưng đem ra ngoài định nghĩa
 
   public:
     Node()
@@ -39,6 +41,12 @@ public:
     }
   };
 };
+
+//hiện thực hàm insert ở ngoài
+template<class T>
+void SLL<T>::insert(T data){
+
+}
 
 int main()
 {

@@ -1,10 +1,13 @@
 #include <iostream>
 using namespace std;
 
+// encapsulation
+//adstraction = truu tuong
+//polymorphism = da hinh
 // inheritance kế thừa
-//public: public, protected->public, protect
-//protect: public, protected->protected, protected
-//private: public, protected->privated, private
+//+ public: public, protected->public, protect
+//+ protect: public, protected->protected, protected
+//+ private: public, protected->privated, private
 
 class people
 {
