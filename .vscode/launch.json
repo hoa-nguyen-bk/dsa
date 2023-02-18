@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "f:/BACH_KINH_XAY/222/ctdl_gt/code/buoi3",
-      "program": "f:/BACH_KINH_XAY/222/ctdl_gt/code/buoi3/build/Debug/outDebug",
+      "cwd": "f:/BACH_KINH_XAY/222/ctdl_gt/code/buoi4/btvn",
+      "program": "f:/BACH_KINH_XAY/222/ctdl_gt/code/buoi4/btvn/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
