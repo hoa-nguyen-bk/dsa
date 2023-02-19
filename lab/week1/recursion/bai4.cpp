@@ -24,15 +24,11 @@ bool isPalindrome(string str)
   {
     str_convert = str.substr(1, length);
     length--;
-    cout <<"cut head = ";
-    printChar(str_convert);
   }
   if (str_convert[length - 1] == ' ')
   {
     str_convert = str_convert.substr(0, length - 1);
     length--;
-    cout <<"cut tail = ";
-    printChar(str_convert);
   }
   if (length <= 1)
   {
@@ -41,8 +37,6 @@ bool isPalindrome(string str)
   else if (str_convert[0] == str_convert[length - 1])
   {
     string new_string = str_convert.substr(1, length - 2);
-    cout << "del head tail = ";
-    printChar(new_string);
     return isPalindrome(new_string);
   }
   return false;
