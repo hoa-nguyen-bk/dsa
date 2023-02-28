@@ -17,26 +17,6 @@ string repeat(string s, int n)
   }
 }
 
-// string expand1(string s) {
-//   int length = s.length();
-//     if (length == 0) {
-//         return "";
-//     } else if (length == 1) {
-//         return s;
-//     } else if (isdigit(s[0])) {
-//         int num = stoi(s[0]);//chuyển thành số cho cái số đầu tiên
-//         if(num == 1){
-//           //nếu số đầu là số 1 thì cắt số 1 và dấu ()
-//           return s.substr(2, length-2);
-//         }
-//         string str = "";
-//         int iLast = length-2; // Skip the opening bracket
-
-//         return "string(num, expand(str)) + expand(rest)";
-//     } else {
-//         return s[0] + expand(s.substr(1));
-//     }
-// }
 string expand(string s)
 {
   if (s.length() == 0)
