@@ -15,26 +15,6 @@ string repeat(string s, int n)
   }
 }
 
-string extractSubstring1(string s, int i)
-{
-  string str = "";
-  int countBracket = 1;
-  while (countBracket != 0)
-  {
-    // cout << "[" << i << "]:" << s[i] << " - ";
-    str += s[i];
-    if (s[i] == ')')
-    {
-      countBracket--;
-    }
-    else if (s[i] == '(')
-    {
-      countBracket++;
-    }
-    i++;
-  }
-  return str;
-}
 string extractSubstring(string s, int i, int countBracket)
 {
   if (countBracket == 0)
@@ -76,12 +56,8 @@ string expand(string s)
 
     string str = extractSubstring(s, i, countBracket);
 
-    // cout << endl;
     string rest = s.substr(str.length() + 2);
-    // cout << "rest = " << rest << endl;
-    // cout << "length = " << length << "; i = " << i << "; str = " << str.substr(0, str.length() - 1) << endl;
     string newString = str.substr(0, str.length() - 1);
-    // cout << "newString = " << newString << endl;
     if (num == 0)
     {
       // nếu số đầu là số 0 thì cắt số 1 và dấu () của số 1 -> chưa đúng
