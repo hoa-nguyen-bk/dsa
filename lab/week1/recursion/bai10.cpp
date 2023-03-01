@@ -4,25 +4,26 @@
 using namespace std;
 int mininumBracketAdd(string s)
 {
-  if (s == "")
+  // Base case: empty string
+  if (s == "") {
     return 0;
-  if (s[0] == ')')
+  }
+  // Recursive case: first character is closing bracket
+  if (s[0] == ')') {
     return 1 + mininumBracketAdd(s.substr(1));
-  unsigned int nextClosedBracket = s.find(')');
-  if (nextClosedBracket != string::npos)
-  {
-    string newCutString = s.substr(1);
-    newCutString.erase(1, nextClosedBracket);
-    if (nextClosedBracket != s.length() - 1)
-    {
-      string rest = s.substr(nextClosedBracket + 1);
-      string finalString = newCutString + rest;
-      return mininumBracketAdd(finalString);
-    }
+  }
+  // Recursive case: find the next closing bracket
+  size_t nextClosedBracket = s.find(')');
+  if (nextClosedBracket != string::npos) {
+    // Remove the opening and closing brackets
+    string newCutString = s.substr(1, nextClosedBracket - 1) + s.substr(nextClosedBracket + 1);
+    // Recursive call with the modified string
     return mininumBracketAdd(newCutString);
   }
+  // Recursive case: no closing bracket found
   return 1 + mininumBracketAdd(s.substr(1));
 }
+
 int main()
 {
   cout << mininumBracketAdd("))()))()()") << endl;

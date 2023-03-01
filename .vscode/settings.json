@@ -35,6 +35,8 @@
   ],
   "C_Cpp.errorSquiggles": "disabled",
   "files.associations": {
+    "*.html": "html",
+    "*.js": "javascriptreact",
     "sstream": "cpp",
     "iostream": "cpp",
     "string": "cpp",
@@ -75,7 +77,12 @@
     "new": "cpp",
     "stdexcept": "cpp",
     "streambuf": "cpp",
-    "typeinfo": "cpp"
+    "typeinfo": "cpp",
+    "forward_list": "cpp",
+    "list": "cpp",
+    "unordered_set": "cpp",
+    "scoped_allocator": "cpp",
+    "regex": "cpp"
   },
   "C_Cpp_Runner.useAddressSanitizer": false
 }
