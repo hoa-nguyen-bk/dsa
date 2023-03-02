@@ -15,9 +15,7 @@ string reverseSentence(string s)
     return s;
   //nếu tìm thấy
   string firstWord = s.substr(0, firstSpace);
-  cout << "firstWord = " << firstWord << "; firstSpace = " << firstSpace << endl;
   string remainSentence = s.substr(firstSpace + 1);
-  cout << "remainSentence = " << remainSentence << endl;
   return reverseSentence(remainSentence) + " " + firstWord;
 }
 int main()
