@@ -14,17 +14,20 @@ void printHailstone(int number)
 
     cout << number << endl;
   }
-  else if (number % 2 == 0)
-  {
-    cout << number << ' ';
-    int even = number / 2;
-    printHailstone(even);
-  }
   else
   {
-    cout << number << ' ';
-    int odd = number * 3 + 1;
-    printHailstone(odd);
+    if (number % 2 == 0)
+    {
+      cout << number << ' ';
+      int even = number / 2;
+      printHailstone(even);
+    }
+    else
+    {
+      cout << number << ' ';
+      int odd = number * 3 + 1;
+      printHailstone(odd);
+    }
   }
 }
 

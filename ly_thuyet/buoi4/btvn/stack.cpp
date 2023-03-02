@@ -7,71 +7,151 @@ using namespace std;
 // empty
 // pop
 
-template <class T>
+template <class ItemType>
 // struct thì struct vẫn dựa trên một cái node
 struct Node
 {
-  int data;
-  Node<T> *next;
-  Node(T data)
-  {
-    this->data = data;
-    this->next = nullptr;
-  }
+  ItemType data;
+  Node<ItemType> *next;
+  Node() : data(), next(nullptr) {} // default constructor
+  Node(ItemType data) : data(data), next(nullptr) {}
 };
 
-template <class T>
+template <class List_ItemType>
 class Stack
 {
 private:
   // nhớ cho chỗ này head = null pointer
-  Node<T> *head = nullptr;
+  Node<List_ItemType> *top;
+  // biến đếm, phải có chứ
+  int count;
 
 public:
-  Stack(T data)
-  {
-    head->data = data;
-  }
+  Stack();
+  ~Stack();
   // thêm 1 ptu mới vào mảng, giá trị user quyết định dĩ nhiên òi, nên là T data
-  void push(T data);
-  void pop();
-  void tracer();
-  // nhớ hết class phải có ;
+  void push(List_ItemType dataIn);
+  int pop(List_ItemType &dataOut);
+  void print2console();
+  bool isEmpty();
+  int getSize();
+  int getStackTop();
+  void clear();
 };
 
-template <class T>
-void Stack<T>::push(T data)
+template <class List_ItemType>
+void Stack<List_ItemType>::clear()
 {
-  Node<T> *tmp = head;
-  // nếu temp chưa được cấp pháp bộ nhớ
-  cout << "tmp=" << tmp << ";tmp->next =" << tmp->next;
-  Node<T> *new_node = new Node<T>(data);
-  if (head->next == nullptr)
+  Node<List_ItemType> *tmp;
+  while (this->top->next != nullptr)
   {
-    //thêm zô sau tại đây stakc mà
-    new_node->next = head;
-  } else (head!=nullptr){
-    
+    this->getStackTop();
+    tmp = this->top;
+    this->top = this->top->next;
+    delete tmp;
   }
+  this->count = 0;
 }
 
-template <class T>
-void Stack<T>::tracer()
+template <class List_ItemType>
+Stack<List_ItemType>::~Stack()
 {
-  Node<T> *tmp = head;
-  while (tmp->next != nullptr)
+  this->clear();
+}
+
+template <class List_ItemType>
+int Stack<List_ItemType>::getStackTop()
+{
+  if (this->isEmpty())
+    return 0;
+  cout << "this->top: " << this->top->data << " - " << this->top->next << endl;
+  return 1;
+}
+
+template <class List_ItemType>
+Stack<List_ItemType>::Stack()
+{
+  this->top = nullptr;
+  this->count = 0;
+}
+
+template <class List_ItemType>
+void Stack<List_ItemType>::push(List_ItemType dataIn)
+{
+  Node<List_ItemType> *newNode = new Node<List_ItemType>();
+  newNode->data = dataIn;
+  newNode->next = this->top;
+  this->top = newNode;
+  this->count++;
+}
+
+template <class List_ItemType>
+bool Stack<List_ItemType>::isEmpty()
+{
+  return (count == 0);
+}
+
+template <class List_ItemType>
+int Stack<List_ItemType>::getSize()
+{
+  return count;
+}
+
+template <class List_ItemType>
+int Stack<List_ItemType>::pop(List_ItemType &dataOut)
+{
+  if (this->isEmpty())
   {
-    cout << tmp->data << ": " << tmp->next << " -> ";
-    tmp = tmp->next;
+    return 0;
+  }
+  Node<List_ItemType> *deletePointer = this->top;
+  dataOut = deletePointer->data;
+  this->top = deletePointer->next;
+  this->count--;
+  delete deletePointer;
+  return 1;
+}
+
+template <class List_ItemType>
+void Stack<List_ItemType>::print2console()
+{
+  if (!this->isEmpty())
+  {
+    Node<List_ItemType> *tmp = new Node<List_ItemType>();
+    tmp->next = this->top;
+    while (tmp != nullptr)
+    {
+      cout << tmp->data << ": " << tmp->next << " -> ";
+      tmp = tmp->next;
+    }
+    cout << endl;
+  }
+  else
+  {
+    cout << "empty stack" << endl;
   }
 }
-// ở đây gặp bug ko log ra đc
 
 int main()
 {
-  Stack<int> *A = new Stack<int>(5);
+  Stack<int> *A = new Stack<int>();
+  int val;
+  A->isEmpty();
+  A->push(5);
+  A->push(5);
+  A->push(5);
   A->push(5);
   A->push(2);
-  A->tracer();
+  A->print2console();
+  A->pop(val);
+  A->pop(val);
+  A->pop(val);
+  A->pop(val);
+  A->push(3);
+  A->getSize();
+  A->print2console();
+  A->getStackTop();
+  delete A;
+  A->print2console();
   return 0;
 }

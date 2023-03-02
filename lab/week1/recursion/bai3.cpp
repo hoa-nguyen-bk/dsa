@@ -14,22 +14,16 @@ int printArr(int *arr, int length)
   cout << "]" << endl;
 }
 
-int findMax(int *arr, int length)
+int findMax(int* arr, int length)
 {
-  /*
-   * STUDENT ANSWER
-   */
-  if (length == 1)
+ if (length == 1)
   {
     return arr[0];
   }
-  else if (arr[0] >= arr[length - 1])
+  else if (arr[0] >= arr[length-1])
   {
-    printArr(arr, length);
     return findMax(arr, length - 1);
   }
-  printArr(arr, length);
-  cout << " arr[length] = " << arr[length] << endl;
   arr[0] = arr[length - 1];
   return findMax(arr, length - 1);
 }
