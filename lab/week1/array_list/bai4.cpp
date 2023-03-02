@@ -14,7 +14,6 @@ int longestSublist(vector<string> &words)
   {
     char firstChar = words[i][0];
     bool found = false;
-    cout << "arrayCount.size() = " << arrayCount.size() << endl;
     if (arrayCount.size() == 0)
     {
       arrayCount.push_back({firstChar, 1});
@@ -25,10 +24,8 @@ int longestSublist(vector<string> &words)
       for (int j = 0; j < arrayCount.size(); j++)
       {
         char arrayCountFirstChar = arrayCount[j].first;
-        cout << "firstChar = " << firstChar << "; arrayCount = " << arrayCountFirstChar << endl;
         if (firstChar == arrayCountFirstChar)
         {
-          cout << "p.first = " << arrayCountFirstChar << endl;
           found = true;
           arrayCount[j].second++;
         }
@@ -39,12 +36,14 @@ int longestSublist(vector<string> &words)
       }
     }
   }
+  int longest = 0;
   for (auto p : arrayCount)
   {
-    cout << p.first << " " << p.second << endl;
+    if (p.second > longest)
+      longest = p.second;
   }
 
-  return 0;
+  return longest;
 }
 
 int main()
