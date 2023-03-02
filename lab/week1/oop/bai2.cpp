@@ -67,9 +67,8 @@ public:
 
   Circle(Point center, double radius)
   {
-    this->center.setX(center.getX());
-    this->center.setY(center.getY());
-    this->setRadius(radius);
+    this->center = center;
+    this->radius = radius;
   }
 
   Circle(const Circle &circle)
@@ -80,8 +79,7 @@ public:
 
   void setCenter(Point point)
   {
-    this->center.setX(point.getX());
-    this->center.setY(point.getY());
+   this->center = point;
   }
 
   void setRadius(double radius)
@@ -92,7 +90,7 @@ public:
   Point getCenter() const
   {
 
-    return Point(this->center.getX(),this->center.getY());
+    return this->center;
   }
 
   double getRadius() const
