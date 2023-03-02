@@ -39,7 +39,6 @@ private:
 public:
   CarToy(double price, Color color) : Toy(price)
   {
-    cout << "inside cartoy: " << color << " - " << price << endl;
     this->color = color;
     this->price = price;
   }
@@ -60,8 +59,6 @@ private:
 public:
   PuzzleToy(double price, Size size) : Toy(price)
   {
-    cout << "inside puzze: " << size << " - " << price << endl;
-
     this->price = price;
     this->size = size;
   }
@@ -84,10 +81,6 @@ private:
 public:
   ToyBox()
   {
-    /*
-     * STUDENT ANSWER
-     * TODO: set zero numberOfItems and nullptr toyBox
-     */
     this->numberOfItems = 0;
     for (int i = 0; i < 5; i++)
     {
@@ -97,42 +90,19 @@ public:
 
   int addItem(const CarToy &carToy)
   {
-    /*
-     * STUDENT ANSWER
-     * TODO: function add a new Car toy to the box.
-             If successfully added, the function returns the current number of toys in the box.
-             If the box is full, return -1.
-     */
     if (this->numberOfItems >= 4)
       return -1;
-    cout << "carToy = " << carToy.color << " - " << carToy.price << endl;
     this->toyBox[numberOfItems] = new CarToy(carToy.price, carToy.color);
-    cout << "toyBox[" << numberOfItems << "] = " << toyBox[numberOfItems] << endl;
     this->numberOfItems++;
-    cout << "numberOfItems = " << numberOfItems << endl;
-    this->printBox();
     return this->numberOfItems;
   }
 
   int addItem(const PuzzleToy &puzzleToy)
   {
-    /*
-     * STUDENT ANSWER
-     * TODO: function add a new Puzzle toy to the box.
-             If successfully added, the function returns the current number of toys in the box.
-             If the box is full, return -1.
-     */
     if (this->numberOfItems >= 4)
       return -1;
-    cout << "puzzleToy = " << puzzleToy.size << " - " << puzzleToy.price << endl;
-
     this->toyBox[numberOfItems] = new PuzzleToy(puzzleToy.price, puzzleToy.size);
-    cout << "toyBox[" << numberOfItems << "] = " << toyBox[numberOfItems] << endl;
-
     this->numberOfItems++;
-    this->printBox();
-    cout << "numberOfItems = " << numberOfItems << endl;
-
     return this->numberOfItems;
   }
 
@@ -150,11 +120,6 @@ int main()
   PuzzleToy puzzle(30000, small);
 
   ToyBox box;
-  box.addItem(car);
-  box.addItem(puzzle);
-  box.addItem(puzzle);
-  box.addItem(car);
-  box.addItem(puzzle);
   box.addItem(car);
   box.addItem(puzzle);
   box.printBox();
