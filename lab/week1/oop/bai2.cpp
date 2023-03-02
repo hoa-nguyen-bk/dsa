@@ -56,10 +56,6 @@ private:
 public:
   Circle()
   {
-    /*
-     * STUDENT ANSWER
-     * TODO: set zero center's x-y and radius
-     */
     this->center.setX(0);
     this->center.setY(0);
     this->radius = 0;
@@ -73,8 +69,8 @@ public:
 
   Circle(const Circle &circle)
   {
-    this->center.setX(circle.center.getX());
-    this->center.setY(circle.center.getY());
+    this->center = circle.center;
+    this->radius= circle.radius;
   }
 
   void setCenter(Point point)
