@@ -20,17 +20,18 @@ vector<int> updateArrayPerRange(vector<int> &nums, vector<vector<int>> &operatio
 
     for (int n = 0; n < numLength; n++)
     {
+      int index = resultVector.begin() + n;
       if (n >= l && n <= r)
       {
         int newValue = resultVector[n] + x;
-        resultVector.erase(resultVector.begin() + n);
-        resultVector.insert(resultVector.begin() + n, newValue);
+        resultVector.erase(index);
+        resultVector.insert(index, newValue);
       }
       else
       {
         int newValue = resultVector[n];
-        resultVector.erase(resultVector.begin() + n);
-        resultVector.insert(resultVector.begin() + n, newValue);
+        resultVector.erase(index);
+        resultVector.insert(index, newValue);
       }
     }
   }
