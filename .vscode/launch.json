@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "f:/BACH_KINH_XAY/222/ctdl_gt/code/lab/week1/oop",
-      "program": "f:/BACH_KINH_XAY/222/ctdl_gt/code/lab/week1/oop/build/Debug/outDebug",
+      "cwd": "f:/BACH_KINH_XAY/222/ctdl_gt/code/lab/week1/array_list",
+      "program": "f:/BACH_KINH_XAY/222/ctdl_gt/code/lab/week1/array_list/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
