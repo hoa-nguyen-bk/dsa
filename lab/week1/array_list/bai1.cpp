@@ -11,33 +11,28 @@ vector<int> updateArrayPerRange(vector<int> &nums, vector<vector<int>> &operatio
 {
   int numLength = nums.size();
   int operationsLength = operations.size();
-  cout << operationsLength << " - " << numLength << endl;
   vector<int> resultVector(nums);
   for (int i = 0; i < operationsLength; i++)
   {
     int l = operations[i][0];
     int r = operations[i][1];
     int x = operations[i][2];
-    cout << "l = " << l << "; r = " << r << "; x = " << x << endl;
 
     for (int n = 0; n < numLength; n++)
     {
       if (n >= l && n <= r)
       {
         int newValue = resultVector[n] + x;
-        cout << "newValue + x = " << newValue << endl;
         resultVector.erase(resultVector.begin() + n);
         resultVector.insert(resultVector.begin() + n, newValue);
       }
       else
       {
         int newValue = resultVector[n];
-        cout << "newValue = " << newValue << endl;
         resultVector.erase(resultVector.begin() + n);
         resultVector.insert(resultVector.begin() + n, newValue);
       }
     }
-    printVector(resultVector);
   }
   return resultVector;
 }
