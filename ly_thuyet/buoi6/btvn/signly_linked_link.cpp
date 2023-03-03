@@ -15,16 +15,20 @@ class List
 private:
   Node *head;
   int count;
+  public:
+  Node(){
+    this
+  }
 };
 
 int main()
 {
-  Node *p = new Node();
+  Node<int> *p = new Node<int>();
   p->data = 5;
   cout << p->data << endl;
-  Node *q = p;
+  Node<int> *q = p;
   cout << q->data << endl;
-  Node *r = new Node();
+  Node<int> *r = new Node<int>();
   r->data=10;
   q->link=r;
   cout << p->link->data << endl;
