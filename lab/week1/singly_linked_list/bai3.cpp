@@ -70,16 +70,16 @@ int *SLinkedList<T>::toString()
 template <class T>
 SLinkedList<T>::~SLinkedList()
 {
-  Node *current = head;
+  Node *current = this->head;
   while (current != nullptr)
   {
     Node *next = current->next;
     delete current;
     current = next;
   }
-  head = nullptr;
-  tail = nullptr;
-  count = 0;
+  this->head = nullptr;
+  this->tail = nullptr;
+  this->count = 0;
 }
 
 template <class T>
@@ -151,11 +151,11 @@ template <class T>
 T SLinkedList<T>::get(int index)
 {
   /* Give the data of the element at given index in the list. */
-  if (index < 0 || index >= count)
+  if (index < 0 || index >= this->count)
   {
     throw std::out_of_range("Index out of range");
   }
-  Node *current = head;
+  Node *current = this->head;
   for (int i = 0; i < index; i++)
   {
     current = current->next;
@@ -183,7 +183,7 @@ template <class T>
 bool SLinkedList<T>::empty()
 {
   /* Check if the list is empty or not. */
-  return count == 0;
+  return this->count == 0;
 }
 
 template <class T>
@@ -191,7 +191,7 @@ int SLinkedList<T>::indexOf(const T &item)
 {
   /* Return the first index wheter item appears in list, otherwise return -1 */
   int index = 0;
-  for (Node *current = head; current != NULL; current = current->next)
+  for (Node *current = head; current != nullptr; current = current->next)
   {
     if (current->data == item)
     {
@@ -213,29 +213,29 @@ template <class T>
 T SLinkedList<T>::removeAt(int index)
 {
   /* Remove element at index and return removed value */
-  if (index < 0 || index >= count)
+  if (index < 0 || index >= this->count)
   {
     throw out_of_range("Index is out of range.");
   }
-  Node *nodeToDelete;
+  Node *nodeToDelete = new Node();
   if (index == 0)
   {
-    nodeToDelete = head;
-    head = nodeToDelete->next;
+    nodeToDelete = this->head;
+    this->head = nodeToDelete->next;
   }
   else
   {
     Node *prevNode = new Node(index - 1);
     nodeToDelete = prevNode->next;
     prevNode->next = nodeToDelete->next;
-    if (nodeToDelete == tail)
+    if (nodeToDelete == this->tail)
     {
-      tail = prevNode;
+      this->tail = prevNode;
     }
   }
   T data = nodeToDelete->data;
   delete nodeToDelete;
-  count--;
+  this->count--;
   return data;
 }
 
@@ -243,34 +243,35 @@ template <class T>
 bool SLinkedList<T>::removeItem(const T &item)
 {
   /* Remove the first apperance of item in list and return true, otherwise return false */
-  Node *curr = head;
-  Node *prev = NULL;
+  Node *curr = new Node();
+  curr = this->head;
+  Node *prev = new Node();
 
-  while (curr != NULL)
+  while (curr != nullptr)
   {
     if (curr->data == item)
     {
-      if (prev == NULL)
+      if (prev == nullptr)
       {
         // Removing the first node in the list
-        head = curr->next;
-        if (tail == curr)
+        this->head = curr->next;
+        if (this->tail == curr)
         {
           // If the removed node was also the last node in the list
-          tail = NULL;
+          this->tail = nullptr;
         }
       }
       else
       {
         prev->next = curr->next;
-        if (tail == curr)
+        if (this->tail == curr)
         {
           // If the removed node was the last node in the list
-          tail = prev;
+          this->tail = prev;
         }
       }
       delete curr;
-      count--;
+      this->count--;
       return true;
     }
     prev = curr;
@@ -284,16 +285,16 @@ template <class T>
 void SLinkedList<T>::clear()
 {
   /* Remove all elements in list */
-  Node *curr = head;
-  while (curr != NULL)
+  Node *curr = this->head;
+  while (curr != nullptr)
   {
     Node *temp = curr;
     curr = curr->next;
     delete temp;
   }
-  head = NULL;
-  tail = NULL;
-  count = 0;
+  this->head = nullptr;
+  this->tail = nullptr;
+  this->count = 0;
 }
 
 int main()

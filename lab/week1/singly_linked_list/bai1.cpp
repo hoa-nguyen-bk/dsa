@@ -80,7 +80,7 @@ SLinkedList<T>::~SLinkedList()
   tail = nullptr;
   count = 0;
 }
-
+// copy từ đây
 template <class T>
 void SLinkedList<T>::add(const T &e)
 {
@@ -146,7 +146,7 @@ int SLinkedList<T>::size()
   return this->count;
 }
 
-
+//  đến đây
 int main()
 {
   SLinkedList<int> list;
