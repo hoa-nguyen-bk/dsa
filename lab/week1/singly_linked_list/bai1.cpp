@@ -109,8 +109,13 @@ void SLinkedList<T>::add(int index, const T &e)
   Node *newElement = new Node(e, nullptr);
   if (index == 0)
   {
-    newElement->next = this->head;
-    this->head = newElement;
+    if (this->head == nullptr) {
+        this->head = newElement;
+        this->tail = newElement;
+    } else {
+        newElement->next = this->head;
+        this->head = newElement;
+    }
   }
   else
   {
@@ -121,6 +126,9 @@ void SLinkedList<T>::add(int index, const T &e)
     }
     newElement->next = current->next;
     current->next = newElement;
+    if (index == this->count) {
+        this->tail = newElement;
+    }
   }
   this->count++;
 }
