@@ -1,4 +1,5 @@
 #include <iostream>
+
 using namespace std;
 template <class T>
 class SLinkedList
@@ -11,12 +12,17 @@ protected:
   int count;
 
 public:
-  SLinkedList();
+  SLinkedList() : head(nullptr), tail(nullptr), count(0){};
   ~SLinkedList();
   void add(const T &e);
   void add(int index, const T &e);
   int size();
   int *toString();
+  bool empty();
+  T get(int index);
+  void set(int index, const T &e);
+  int indexOf(const T &item);
+  bool contains(const T &item);
 
 public:
   class Node
@@ -35,7 +41,7 @@ public:
     {
       this->next = next;
     }
-    Node(T data, Node *next)
+    Node(T data, Node *next = nullptr)
     {
       this->data = data;
       this->next = next;
@@ -56,14 +62,6 @@ int *SLinkedList<T>::toString()
   cout << "]" << endl;
 
   return 0;
-}
-
-template <class T>
-SLinkedList<T>::SLinkedList()
-{
-  head = nullptr;
-  tail = nullptr;
-  count = 0;
 }
 
 template <class T>
@@ -146,18 +144,77 @@ int SLinkedList<T>::size()
   return this->count;
 }
 
+template<class T>
+T SLinkedList<T>::get(int index) {
+    /* Give the data of the element at given index in the list. */
+    if (index < 0 || index >= count) {
+        throw std::out_of_range("Index out of range");
+    }
+    Node* current = head;
+    for (int i = 0; i < index; i++) {
+        current = current->next;
+    }
+    return current->data;
+}
+
+template <class T>
+void SLinkedList<T>::set(int index, const T& e) {
+    /* Assign new value for element at given index in the list */
+    if (index < 0 || index >= count) {
+        throw std::out_of_range("Index out of range");
+    }
+    Node* current = head;
+    for (int i = 0; i < index; i++) {
+        current = current->next;
+    }
+    current->data = e;
+}
+
+template<class T>
+bool SLinkedList<T>::empty() {
+    /* Check if the list is empty or not. */
+    return count == 0;
+}
+
+template<class T>
+int SLinkedList<T>::indexOf(const T& item) {
+    /* Return the first index wheter item appears in list, otherwise return -1 */
+    int index = 0;
+    for (Node* current = head; current != NULL; current = current->next) {
+        if (current->data == item) {
+            return index;
+        }
+        index++;
+    }
+    return -1;
+}
+
+template<class T>
+bool SLinkedList<T>::contains(const T& item) {
+    /* Check if item appears in the list */
+    return indexOf(item) >= 0;
+}
 
 int main()
 {
   SLinkedList<int> list;
-  int size = 10;
+  int values[] = {10, 15, 2, 6, 4, 7, 40, 8};
+  int index[] = {0, 0, 1, 3, 2, 3, 5, 0};
+  int expvalues[] = {8, 15, 2, 4, 7, 10, 40, 6};
 
-  for (int index = 0; index < size; index++)
+  for (int idx = 0; idx < 8; idx++)
   {
-    list.add(0, index);
+    list.add(index[idx], values[idx]);
+  }
+
+  assert(list.size() == 8);
+
+  for (int idx = 0; idx < 8; idx++)
+  {
+    assert(list.get(idx) == expvalues[idx]);
   }
 
   cout << list.toString();
-  // [9,8,7,6,5,4,3,2,1,0]
+  // [ 8, 15, 2, 4, 7, 10, 40, 6 ]
   return 0;
 }
