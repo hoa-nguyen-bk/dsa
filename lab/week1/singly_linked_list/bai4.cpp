@@ -97,7 +97,8 @@ public:
   };
 };
 
-// start of iterator implementation
+
+
 template <class T>
 SLinkedList<T>::Iterator::Iterator(SLinkedList<T> *pList, bool begin)
 {
@@ -111,34 +112,30 @@ SLinkedList<T>::Iterator::Iterator(SLinkedList<T> *pList, bool begin)
       * * Always set current to NULL
       * * Set index to pList's size if pList is not NULL, otherwise 0
   */
-  this->pList->toString();
   this->pList = pList;
-  this->pList->toString();
-
   if (begin)
   {
-    if (pList != nullptr)
+    if (this->pList)
     {
-      this->current = pList->head;
-      this->index = 0;
+      current = pList->head;
+      index = 0;
     }
     else
     {
-      this->current = nullptr;
-      this->index = -1;
+      current = NULL;
+      index = -1;
     }
   }
   else
   {
-    this->current = nullptr;
-    if (this->pList != nullptr)
+    current = NULL;
+    if (this->pList)
     {
-
-      this->index = pList->size();
+      index = pList->size();
     }
     else
     {
-      this->index = 0;
+      index = 0;
     }
   }
 }
@@ -150,10 +147,9 @@ typename SLinkedList<T>::Iterator &SLinkedList<T>::Iterator::operator=(const Ite
       Assignment operator
       * Set this current, index, pList to iterator corresponding elements.
   */
-  this->current = iterator.current;
-  this->index = iterator.index;
-  this->pList = iterator.pList;
-  // theo cái ở trên thì ở dưới phải trả về Iterator
+  current = iterator.current;
+  index = iterator.index;
+  pList = iterator.pList;
   return *this;
 }
 
@@ -166,38 +162,29 @@ void SLinkedList<T>::Iterator::remove()
       * If remove at front, current points to previous "node" of head (current = NULL, index = -1)
       * Exception: throw std::out_of_range("Segmentation fault!") if remove when current is NULL
   */
-  typename SLinkedList<T>::Node *deleteNode = new typename SLinkedList<T>::Node();
-  if (this->current == nullptr)
-  {
+  if (current == NULL)
     throw std::out_of_range("Segmentation fault!");
+  else if (index != 0)
+  {
+    current = pList->head;
+    for (int i = 0; i < index - 1; i++)
+    {
+      current = current->next;
+    }
+    Node *del = current->next;
+    current->next = current->next->next;
+    delete del;
+    index--;
+    pList->count--;
   }
   else
   {
-    // if remove at front current points to previous "node" of head (current = NULL, index = -1)
-    if (this->current == this->pList->head)
-    {
-      this->pList->head = this->current->next;
-      deleteNode = this->current;
-      this->current = nullptr;
-      this->index = -1;
-      delete deleteNode;
-    }
-    // After remove current points to the previous node of this position (or node with index - 1)
-    else
-    {
-
-      typename SLinkedList<T>::Node *temp = this->current;
-
-      while (temp->next != this->current)
-      {
-        temp = temp->next;
-      }
-      temp->next = this->current->next;
-      deleteNode = this->current;
-      this->current = temp;
-      this->index--;
-      delete deleteNode;
-    }
+    Node *temp = pList->head;
+    pList->head = pList->head->next;
+    delete temp;
+    index = -1;
+    current = NULL;
+    pList->count--;
   }
 }
 
@@ -208,14 +195,9 @@ void SLinkedList<T>::Iterator::set(const T &e)
       Set the new value for current node
       * Exception: throw std::out_of_range("Segmentation fault!") if current is NULL
   */
-  if (this->current == nullptr)
-  {
+  if (current == NULL)
     throw std::out_of_range("Segmentation fault!");
-  }
-  else
-  {
-    this->current->data = e;
-  }
+  current->data = e;
 }
 
 template <class T>
@@ -225,14 +207,9 @@ T &SLinkedList<T>::Iterator::operator*()
       Get data stored in current node
       * Exception: throw std::out_of_range("Segmentation fault!") if current is NULL
   */
-  if (this->current == nullptr)
-  {
-     throw std::out_of_range("Segmentation fault!");
-  }
-  else
-  {
-    return this->current->data;
-  }
+  if (current == NULL)
+    throw std::out_of_range("Segmentation fault!");
+  return current->data;
 }
 
 template <class T>
@@ -242,6 +219,8 @@ bool SLinkedList<T>::Iterator::operator!=(const Iterator &iterator)
       Operator not equals
       * Returns false if two iterators points the same node and index
   */
+  if (current == NULL)
+    throw std::out_of_range("Segmentation fault!");
   if (this->current == iterator.current && this->index == iterator.index)
     return false;
   return true;
@@ -256,20 +235,10 @@ typename SLinkedList<T>::Iterator &SLinkedList<T>::Iterator::operator++()
       * If iterator corresponds to the previous "node" of head, set it to head
       * Exception: throw std::out_of_range("Segmentation fault!") if iterator corresponds to the end
   */
-  if (this->current == nullptr && this->index == -1)
-  {
-    this->current = this->pList->head;
-    this->index = 0;
-  }
-  else if (this->current == nullptr && this->index == this->pList->size())
-  {
+  if (current == NULL)
     throw std::out_of_range("Segmentation fault!");
-  }
-  else
-  {
-    this->current = this->current->next;
-    this->index++;
-  }
+  current = current->next;
+  index++;
   return *this;
 }
 // Postfix ++ overload
@@ -282,21 +251,9 @@ typename SLinkedList<T>::Iterator SLinkedList<T>::Iterator::operator++(int)
       * If iterator corresponds to the previous "node" of head, set it to head
       * Exception: throw std::out_of_range("Segmentation fault!") if iterator corresponds to the end
   */
-  if (this->current == nullptr && this->index == -1)
-  {
-    this->current = this->pList->head;
-    this->index = 0;
-  }
-  else if (this->current == nullptr && this->index == this->pList->size())
-  {
-    throw std::out_of_range("Segmentation fault!");
-  }
-  else
-  {
-    this->current = this->current->next;
-    this->index++;
-  }
-  return *this;
+  Iterator *temp = this;
+  ++(*this);
+  return *temp;
 }
 
 // end of iterator

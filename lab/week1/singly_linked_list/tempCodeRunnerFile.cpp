@@ -1,1 +1,1 @@
-If iterator corresponds to the previous "node" of head, set it to head
+index

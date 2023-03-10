@@ -120,9 +120,9 @@ bool SLinkedList<T>::Iterator::operator!=(const Iterator &iterator)
       Operator not equals
       * Returns false if two iterators points the same node and index
   */
-   if (current == NULL)
+  if (current == NULL)
     throw std::out_of_range("Segmentation fault!");
-      if (this->current == iterator.current && this->index == iterator.index)
+  if (this->current == iterator.current && this->index == iterator.index)
     return false;
   return true;
 }
