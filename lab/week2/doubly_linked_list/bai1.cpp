@@ -139,47 +139,93 @@ template <class T>
 void DLinkedList<T>::add(int index, const T &e)
 {
   /* Insert an element into the list at given index. */
+  if (index > this->count)
+  {
+    return;
+  }
   Node *newNode = new Node(e);
-  // lần đầu khi mảng chưa có gì thì zô đây
-  if (this->count == 0)
+  // case 1: insert at index = 0, beginner of the list
+  if (index == 0)
   {
-    this->head = newNode;
-    this->tail = newNode;
+    newNode->next = this->head;
   }
-  // lần 2 sẽ là zô đít
-  else if (this->count == index)
+  if (this->head != nullptr)
   {
-    this->tail->next = newNode;
-    newNode->previous = this->tail;
+    head->previous = newNode;
   }
-  // lần 3 zô khi mảng đã có hàng họ đủ rồi
-  else
-  {
-    int i = 0;
-
-    Node *tmp = this->head;
-    while (tmp != nullptr)
-    {
-      // cout << "; tmp->next->next = " << tmp->next << endl;
-
-      if (i == index)
-      {
-        newNode->next = tmp->next;
-        if (tmp->next != nullptr)
-        {
-          tmp->next->previous = newNode;
-        }
-        tmp->next = newNode;
-        newNode->previous = tmp;
-        cout << "newNode->next = " << newNode->next << "; tmp->next->next = " << tmp->next->next << endl;
-        break;
-      }
-      i++;
-      tmp = tmp->next;
-    }
-  }
+  head = newNode;
   this->count++;
+  return;
+
+  // case 2: insert at the end of the list
+  if (index == this->count)
+  {
+    tail->next = newNode;
+    newNode->previous = tail;
+    tail = newNode;
+    this->count++;
+    return;
+  }
+
+  // case 3: insert in the middle of the list
+  Node *currentNode = this->head;
+  // với điểm dừng index - 1 thì cục current node sẽ
+  for (int i = 0; i < index - 1; i++)
+  {
+    currentNode = currentNode->next;
+  }
+  newNode->next = currentNode->next;
+  currentNode->next = newNode;
+  newNode->previous = currentNode;
+  if (newNode->next != nullptr)
+  {
+    newNode->next->previous = newNode;
+  }
 }
+
+// template <class T>
+// void DLinkedList<T>::add(int index, const T &e)
+// {
+//   /* Insert an element into the list at given index. */
+//   Node *newNode = new Node(e);
+//   // lần đầu khi mảng chưa có gì thì zô đây
+//   if (this->count == 0)
+//   {
+//     this->head = newNode;
+//     this->tail = newNode;
+//   }
+//   // lần 2 sẽ là zô đít
+//   else if (this->count == index)
+//   {
+//     this->tail->next = newNode;
+//     newNode->previous = this->tail;
+//   }
+//   // lần 3 zô khi mảng đã có hàng họ đủ rồi
+//   else
+//   {
+//     int i = 0;
+
+//     Node *tmp = this->head;
+//     while (tmp != nullptr)
+//     {
+
+//       if (i == index)
+//       {
+//         newNode->next = tmp->next;
+//         tmp->next = newNode;
+//         newNode->previous = tmp;
+//         if (newNode->next != nullptr)
+//         {
+//           newNode->next->previous = newNode;
+//         }
+//         break;
+//       }
+//       i++;
+//       tmp = tmp->next;
+//     }
+//   }
+//   this->count++;
+// }
 
 template <class T>
 int DLinkedList<T>::size()
