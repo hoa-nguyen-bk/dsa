@@ -185,29 +185,17 @@ void DLinkedList<T>::add(int index, const T &e)
     newNode->next = this->head;
     if (this->head != nullptr)
     {
-      cout << "insert at index = 0, beginner of the list" << endl;
-
       this->head->previous = newNode;
     }
     this->head = newNode;
     this->count++;
     return;
   }
-  cout << "index =" << index << "; count = " << this->count << endl;
   // case 2: insert at the end of the list
   if (index == this->count)
   {
-    cout <<"case 2: insert at the end of the list"<<endl;
-    if (this->tail == nullptr)
+    if (this->tail != nullptr)
     {
-      cout << "here" << endl;
-      this->tail->next = newNode;
-      newNode->previous = this->tail;
-    }
-    else
-    {
-      cout << "not here" << endl;
-
       this->tail->next = newNode;
       newNode->previous = tail;
     }
@@ -218,7 +206,6 @@ void DLinkedList<T>::add(int index, const T &e)
 
   // case 3: insert in the middle of the list
   Node *currentNode = this->head;
-  cout << "case 3: insert in the middle of the list" << endl;
 
   // với điểm dừng index - 1 thì cục current node sẽ
   for (int i = 0; i < index - 1; i++)
