@@ -59,13 +59,25 @@ template <class T>
 T DLinkedList<T>::removeAt(int index)
 {
   /* Remove element at index and return removed value */
-  if (this->count == 0 || index < 0 || index >= count)
+  if (this->count == 0 || index < 0 || index > this->count)
   {
-    throw std::out_of_range("Index out of range");
+    throw out_of_range("Index out of range");
+  }
+  Node *currentNode = this->head;
+  // THDB: for list only one element
+
+  if (this->count == 1)
+  {
+    cout << "THDB: for list only one element" << endl;
+    this->head = nullptr;
+    this->tail = nullptr;
+    this->count = 0;
+    T data = currentNode->data;
+    delete currentNode;
+    return data;
   }
 
   Node *previousNode = nullptr;
-  Node *currentNode = this->head;
 
   for (int i = 0; i < index; ++i)
   {
@@ -76,7 +88,6 @@ T DLinkedList<T>::removeAt(int index)
   // if index = 0, chỉ có 1 thằng là tại vị trí đầu
   if (previousNode == nullptr)
   {
-    cout << "previousNode == nullptr" << endl;
     // cho thằng head là node tiếp theo
     this->head = currentNode->next;
     // vị trí đầu thì dĩ nhiên next prev null rồi
@@ -85,18 +96,20 @@ T DLinkedList<T>::removeAt(int index)
   // còn nếu là vị trí còn lại
   else
   {
-    cout << "vi tri con lai" << endl;
     // cho node trước bằng với node sau của sau luôn, dán liền 2 nốt cách 1 cục current head lại
-    previousNode->next = currentNode->next;
+
     Node *nextNode = currentNode->next;
-    // còn node sau nối bằng node trước, chỗ này tách node cho dễ hiểu thôi
-    nextNode->previous = previousNode;
-  }
-  // nếu như nó là node cuối cùng
-  if (currentNode->next == nullptr)
-  {
-    cout << "vi tri cuoi cung" << endl;
-    this->tail = previousNode;
+    if (nextNode == nullptr)
+    {
+      previousNode->next = nullptr;
+      this->tail = previousNode;
+    }
+    else
+    {
+      previousNode->next = nextNode;
+      // còn node sau nối bằng node trước, chỗ này tách node cho dễ hiểu thôi
+      nextNode->previous = previousNode;
+    }
   }
 
   T data = currentNode->data;
@@ -114,6 +127,7 @@ bool DLinkedList<T>::removeItem(const T &item)
   {
     throw std::out_of_range("Index out of range");
   }
+
   Node *previousNode = NULL;
   Node *currentNode = this->head;
   while (currentNode != NULL)
@@ -128,19 +142,25 @@ bool DLinkedList<T>::removeItem(const T &item)
         // vị trí đầu thì dĩ nhiên next prev null rồi
         currentNode->next->previous = nullptr;
       }
-      // TH2: nếu đó là vị trí ở giữa
       else
       {
         Node *nextNode = currentNode->next;
-        previousNode->next = nextNode;
-        // còn node sau nối bằng node trước, chỗ này tách node cho dễ hiểu thôi
-        nextNode->previous = previousNode;
+              // TH2: và cuối cùng là ở cuối
+        if (nextNode == nullptr)
+        {
+          previousNode->next = nullptr;
+          this->tail = previousNode;
+        }
+        //TH3: ở giữa
+        else
+        {
+          previousNode->next = nextNode;
+          // còn node sau nối bằng node trước, chỗ này tách node cho dễ hiểu thôi
+          nextNode->previous = previousNode;
+        }
       }
-      // TH3: và cuối cùng là ở cuối
-      if (this->tail == currentNode)
-      {
-        this->tail = previousNode;
-      }
+
+
       delete currentNode;
       count--;
       return true;
@@ -156,15 +176,16 @@ template <class T>
 void DLinkedList<T>::clear()
 {
   /* Remove all elements in list */
-  Node* currentNode = this->head;
-  while(currentNode != nullptr){
-    Node* temp = currentNode;
-    currentNode=currentNode->next;
+  Node *currentNode = this->head;
+  while (currentNode != nullptr)
+  {
+    Node *temp = currentNode;
+    currentNode = currentNode->next;
     delete temp;
   }
-  this->head=nullptr;
-  this->tail=nullptr;
-  this->count=0;
+  this->head = nullptr;
+  this->tail = nullptr;
+  this->count = 0;
 }
 
 //----------------------------------------
@@ -264,6 +285,7 @@ void DLinkedList<T>::toNodeString()
 
   // Print the table footer
   cout << "+-------+-------+-------+-------+\n";
+  cout << endl;
 }
 
 template <class T>
@@ -445,11 +467,52 @@ int main()
   }
   list.toString();
   list.toNodeString();
+  // TH1: remove at head
+  cout << "TH1: remove at head" << endl;
   list.removeAt(0);
   list.toNodeString();
-  
-  list.removeItem(value[5]);
+  // TH2: remove at middle
+  cout << "TH2: remove at index = " << list.size() / 2 << endl;
+
+  list.removeAt(list.size() / 2);
   list.toNodeString();
+  // TH3: remove at tail
+  cout << "TH3: remove at tail" << endl;
+  list.removeAt(list.size() - 1);
+  list.toNodeString();
+
+  // TH1: remove at head
+  cout << "TH1: remove at head" << endl;
+  list.removeItem(list.get(0));
+  list.toNodeString();
+
+  // TH2: remove at middle
+  int middle = list.get(list.size() / 2);
+  cout << "TH2: remove at index = " << middle << endl;
+  list.removeItem(middle);
+  list.toNodeString();
+
+  // TH3: remove at tail
+  cout << "TH3: remove at tail" << endl;
+  list.removeItem(list.get(list.size() - 1));
+  list.toNodeString();
+
+  DLinkedList<int> listOnly;
+  listOnly.add(99);
+  listOnly.toNodeString();
+
+  // TH DB1: remove at for list only
+  cout << "TH DB1: remove at for list only" << endl;
+  listOnly.removeAt(0);
+  listOnly.toNodeString();
+  cout << "NEW QUEEN CAME UP" << endl;
+  listOnly.add(66);
+  listOnly.toNodeString();
+
+  // TH DB2: remove item for list only
+  cout << "TH DB2: remove item for list only" << endl;
+  listOnly.removeItem(list.get(0));
+  listOnly.toNodeString();
 
   return 0;
 }
