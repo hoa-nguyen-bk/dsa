@@ -68,7 +68,6 @@ T DLinkedList<T>::removeAt(int index)
 
   if (this->count == 1)
   {
-    cout << "THDB: for list only one element" << endl;
     this->head = nullptr;
     this->tail = nullptr;
     this->count = 0;
@@ -101,8 +100,8 @@ T DLinkedList<T>::removeAt(int index)
     Node *nextNode = currentNode->next;
     if (nextNode == nullptr)
     {
-      previousNode->next = nullptr;
       this->tail = previousNode;
+      previousNode->next = nullptr;
     }
     else
     {
@@ -113,9 +112,9 @@ T DLinkedList<T>::removeAt(int index)
   }
 
   T data = currentNode->data;
+
   delete currentNode;
   this->count--;
-
   return data;
 }
 
@@ -128,46 +127,18 @@ bool DLinkedList<T>::removeItem(const T &item)
     throw std::out_of_range("Index out of range");
   }
 
-  Node *previousNode = NULL;
   Node *currentNode = this->head;
+  int i = 0;
   while (currentNode != NULL)
   {
     // nếu tìm được node để xóa
     if (currentNode->data == item)
     {
-      // TH1: nếu đó vẫn là node đầu tiên
-      if (previousNode == nullptr)
-      {
-        this->head = currentNode->next;
-        // vị trí đầu thì dĩ nhiên next prev null rồi
-        currentNode->next->previous = nullptr;
-      }
-      else
-      {
-        Node *nextNode = currentNode->next;
-              // TH2: và cuối cùng là ở cuối
-        if (nextNode == nullptr)
-        {
-          previousNode->next = nullptr;
-          this->tail = previousNode;
-        }
-        //TH3: ở giữa
-        else
-        {
-          previousNode->next = nextNode;
-          // còn node sau nối bằng node trước, chỗ này tách node cho dễ hiểu thôi
-          nextNode->previous = previousNode;
-        }
-      }
-
-
-      delete currentNode;
-      count--;
+      this->removeAt(i);
       return true;
     }
-    previousNode = currentNode;
+    i++;
     currentNode = currentNode->next;
-    currentNode->previous = previousNode;
   }
   return false;
 }
@@ -510,8 +481,8 @@ int main()
   listOnly.toNodeString();
 
   // TH DB2: remove item for list only
-  cout << "TH DB2: remove item for list only" << endl;
-  listOnly.removeItem(list.get(0));
+  cout << "TH DB2: remove item for list only (" <<list.get(0)<<") end" << endl;
+  listOnly.removeItem(66);
   listOnly.toNodeString();
 
   return 0;
