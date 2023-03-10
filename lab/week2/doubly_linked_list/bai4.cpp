@@ -5,8 +5,7 @@ template <class T>
 class DLinkedList
 {
 public:
-  class Iterator; // forward declaration
-  class Node;     // Forward declaration
+  class Node; // Forward declaration
 protected:
   Node *head;
   Node *tail;
@@ -25,17 +24,9 @@ public:
   bool empty();
   int indexOf(const T &item);
   bool contains(const T &item);
-  Iterator begin()
-  {
-    cout << "go to begin" << endl;
-    return Iterator(this, true);
-  }
-  Iterator end()
-  {
-    cout << "go to end" << endl;
-
-    return Iterator(this, false);
-  }
+  T removeAt(int index);
+  bool removeItem(const T &item);
+  void clear();
 
 public:
   class Node
@@ -60,185 +51,124 @@ public:
       this->next = NULL;
     }
   };
-  class Iterator
-  {
-  private:
-    DLinkedList<T> *pList;
-    Node *current;
-    int index; // is the index of current in pList
-  public:
-    Iterator(DLinkedList<T> *pList, bool begin);
-    Iterator &operator=(const Iterator &iterator);
-    void set(const T &e);
-    T &operator*();
-    bool operator!=(const Iterator &iterator);
-    void remove();
-
-    // Prefix ++ overload
-    Iterator &operator++();
-
-    // Postfix ++ overload
-    Iterator operator++(int);
-  };
 };
 //----------------------------------------
-//-----------start interator--------------
+//-----------start bai 4--------------
 //----------------------------------------
-/*
- * TODO: Implement class Iterator's method
- * Note: method remove is different from SLinkedList, which is the advantage of DLinkedList
- */
 template <class T>
-DLinkedList<T>::Iterator::Iterator(DLinkedList<T> *pList, bool begin)
+T DLinkedList<T>::removeAt(int index)
 {
-  /*
-     Constructor of iterator
-     * Set pList to pList
-     * begin = true:
-     * * Set current (index = 0) to pList's head if pList is not NULL
-     * * Otherwise set to NULL (index = -1)
-     * begin = false:
-     * * Always set current to NULL
-     * * Set index to pList's size if pList is not NULL, otherwise 0
- */
-  this->pList = pList;
-  if (begin)
+  /* Remove element at index and return removed value */
+  if (this->count == 0 || index < 0 || index >= count)
   {
-    if (this->pList != nullptr)
-    {
-      this->current = pList->head;
-      this->index = 0;
-    }
-    else
-    {
-      this->current = nullptr;
-      this->index = -1;
-    }
+    throw std::out_of_range("Index out of range");
   }
+
+  Node *previousNode = nullptr;
+  Node *currentNode = this->head;
+
+  for (int i = 0; i < index; ++i)
+  {
+    previousNode = currentNode;
+    currentNode = currentNode->next;
+    currentNode->previous = previousNode;
+  }
+  // if index = 0, chỉ có 1 thằng là tại vị trí đầu
+  if (previousNode == nullptr)
+  {
+    cout << "previousNode == nullptr" << endl;
+    // cho thằng head là node tiếp theo
+    this->head = currentNode->next;
+    // vị trí đầu thì dĩ nhiên next prev null rồi
+    currentNode->next->previous = nullptr;
+  }
+  // còn nếu là vị trí còn lại
   else
   {
-    if (this->pList != nullptr)
-    {
-      this->current = nullptr;
-      this->index = pList->size();
-    }
-    else
-    {
-      this->current = nullptr;
-      this->index = 0;
-    }
+    cout << "vi tri con lai" << endl;
+    // cho node trước bằng với node sau của sau luôn, dán liền 2 nốt cách 1 cục current head lại
+    previousNode->next = currentNode->next;
+    Node *nextNode = currentNode->next;
+    // còn node sau nối bằng node trước, chỗ này tách node cho dễ hiểu thôi
+    nextNode->previous = previousNode;
   }
-}
-
-template <class T>
-typename DLinkedList<T>::Iterator &DLinkedList<T>::Iterator::operator=(const DLinkedList<T>::Iterator &iterator)
-{
-  /*
-      Assignment operator
-      * Set this current, index, pList to iterator corresponding elements.
-  */
-  if (this->current == nullptr)
-    throw std::out_of_range("Segmentation fault!");
-  this->current = iterator.current;
-  this->index = iterator.index;
-  this->pList = iterator.pList;
-  // theo cái ở trên thì ở dưới phải trả về Iterator
-  return *this;
-}
-
-template <class T>
-void DLinkedList<T>::Iterator::set(const T &e)
-{
-
-  // set the new value for current node
-  if (this->current == nullptr)
-    throw out_of_range("Segmentation fault!");
-  this->current->data = e;
-}
-
-template <class T>
-T &DLinkedList<T>::Iterator::operator*()
-{
-
-  if (this->current == nullptr)
-    throw out_of_range("Segmentation fault!");
-  return this->current->data;
-}
-
-template <class T>
-bool DLinkedList<T>::Iterator::operator!=(const DLinkedList::Iterator &iterator)
-{
-  // not equal
-  if (this->current == nullptr)
-    throw std::out_of_range("Segmentation fault!");
-  if (this->current == iterator.current && this->index == iterator.index)
+  // nếu như nó là node cuối cùng
+  if (currentNode->next == nullptr)
   {
-    return false;
+    cout << "vi tri cuoi cung" << endl;
+    this->tail = previousNode;
   }
-  return true;
+
+  T data = currentNode->data;
+  delete currentNode;
+  this->count--;
+
+  return data;
 }
 
 template <class T>
-void DLinkedList<T>::Iterator::remove()
+bool DLinkedList<T>::removeItem(const T &item)
 {
-  /*
-   * TODO: delete Node in pList which Node* current point to.
-   *       After that, Node* current point to the node before the node just deleted.
-   *       If we remove first node of pList, Node* current point to nullptr.
-   *       Then we use operator ++, Node* current will point to the head of pList.
-   */
-
-  if (this->current == nullptr)
-    throw std::out_of_range("Segmentation fault!");
-  else if (this->index != 0)
+  /* Remove the first apperance of item in list and return true, otherwise return false */
+  if (this->count == 0)
   {
-    this->current = pList->head;
-    for (int i = 0; i < this->index; i++)
+    throw std::out_of_range("Index out of range");
+  }
+  Node *previousNode = NULL;
+  Node *currentNode = this->head;
+  while (currentNode != NULL)
+  {
+    // nếu tìm được node để xóa
+    if (currentNode->data == item)
     {
-      this->current = this->current->next;
+      // TH1: nếu đó vẫn là node đầu tiên
+      if (previousNode == nullptr)
+      {
+        this->head = currentNode->next;
+        // vị trí đầu thì dĩ nhiên next prev null rồi
+        currentNode->next->previous = nullptr;
+      }
+      // TH2: nếu đó là vị trí ở giữa
+      else
+      {
+        Node *nextNode = currentNode->next;
+        previousNode->next = nextNode;
+        // còn node sau nối bằng node trước, chỗ này tách node cho dễ hiểu thôi
+        nextNode->previous = previousNode;
+      }
+      // TH3: và cuối cùng là ở cuối
+      if (this->tail == currentNode)
+      {
+        this->tail = previousNode;
+      }
+      delete currentNode;
+      count--;
+      return true;
     }
-    Node *deleteNode = this->current;
-    this->current = this->current->next;
-    delete deleteNode;
-    this->index--;
-    this->pList->count--;
+    previousNode = currentNode;
+    currentNode = currentNode->next;
+    currentNode->previous = previousNode;
   }
-  // if index = 0, remove first node
-  else
-  {
-    Node *temp = this->pList->head;
-    this->pList->head = this->pList->head->next;
+  return false;
+}
+
+template <class T>
+void DLinkedList<T>::clear()
+{
+  /* Remove all elements in list */
+  Node* currentNode = this->head;
+  while(currentNode != nullptr){
+    Node* temp = currentNode;
+    currentNode=currentNode->next;
     delete temp;
-    this->index = -1;
-    this->current = nullptr;
-    this->pList->count--;
-    // Then we use operator ++, Node* current will point to the head of pList.
-    this->current++;
   }
-}
-
-template <class T>
-typename DLinkedList<T>::Iterator &DLinkedList<T>::Iterator::operator++()
-{
-  if (this->current == nullptr)
-    throw std::out_of_range("Segmentation fault!");
-  this->current = this->current->next;
-  this->index++;
-  return *this;
-}
-
-template <class T>
-typename DLinkedList<T>::Iterator DLinkedList<T>::Iterator::operator++(int)
-{
-  if (this->current == nullptr)
-    throw std::out_of_range("Segmentation fault!");
-  Iterator *temp = this;
-  ++(*this);
-  return *temp;
+  this->head=nullptr;
+  this->tail=nullptr;
+  this->count=0;
 }
 
 //----------------------------------------
-//-----------end interator--------------
+//-----------end --------------
 //----------------------------------------
 
 template <class T>
@@ -252,6 +182,7 @@ DLinkedList<T>::DLinkedList()
 template <class T>
 DLinkedList<T>::~DLinkedList()
 {
+  this->clear();
 }
 
 template <class T>
@@ -315,7 +246,7 @@ void DLinkedList<T>::toNodeString()
   {
     cout << setw(5) << this->head->data << " + ";
   }
-  cout << " tail = ";
+  cout << "tail  = ";
   if (this->tail == nullptr)
   {
     cout << " null";
@@ -506,16 +437,18 @@ int main()
 {
   DLinkedList<int> list;
   int size = 10;
+  int value[] = {2, 5, 6, 3, 67, 3322, 43, 1, 0, 9};
+
   for (int idx = 0; idx < size; idx++)
   {
-    list.add(idx);
+    list.add(value[idx]);
   }
+  list.toString();
   list.toNodeString();
-  DLinkedList<int>::Iterator it = list.begin();
-  for (; it != list.end(); it++)
-  {
-    cout << *it << " |";
-  }
+  list.removeAt(0);
+  list.toNodeString();
+  
+  list.removeItem(value[5]);
   list.toNodeString();
 
   return 0;
