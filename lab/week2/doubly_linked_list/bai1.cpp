@@ -77,43 +77,68 @@ template <class T>
 void DLinkedList<T>::toNodeString()
 {
   // Print the table header
-  std::cout << "+-------+-------+-------+-------+\n";
-  std::cout << "| Stt   | Prev  | Value | Next  |\n";
-  std::cout << "+-------+-------+-------+-------+\n";
+  cout << "+-------+-------+-------+-------+\n";
+  cout << "| Stt   | Prev  | Value | Next  |\n";
+  cout << "+-------+-------+-------+-------+\n";
 
   // Print each node in the linked list
   int i = 0;
   Node *current_node = this->head;
   while (current_node != nullptr)
   {
-    std::cout << "| " << std::setw(5) << i
-              << " | ";
+    cout << "| " << setw(5) << i
+         << " | ";
     if (current_node->previous == nullptr)
     {
-      std::cout << std::setw(5) << "start"
-                << " | ";
+      cout << setw(5) << "start"
+           << " | ";
     }
     else
     {
-      std::cout << std::setw(5) << current_node->previous->data << " | ";
+      cout << setw(5) << current_node->previous->data << " | ";
     }
-    std::cout << std::setw(5) << current_node->data << " | ";
+    cout << setw(5) << current_node->data << " | ";
 
     if (current_node->next == nullptr)
     {
-      std::cout << std::setw(5) << "end"
-                << " |\n";
+      cout << setw(5) << "end"
+           << " |\n";
     }
     else
     {
-      std::cout << std::setw(5) << current_node->next->data << " |\n";
+      cout << setw(5) << current_node->next->data << " |\n";
     }
     current_node = current_node->next;
     i++;
   }
+  cout << "+-------+-------+-------+-------+\n";
+  cout << "+ head  = ";
+  if (this->head == nullptr)
+  {
+    cout << "null+ ";
+  }
+  else
+  {
+    cout << setw(5) << this->head->data << " + ";
+  }
+  cout << " tail = ";
+  if (this->tail == nullptr)
+  {
+    cout << " null";
+  }
+  else
+  {
+
+    cout << setw(5) << this->tail->data ;
+  }
+  cout << " +\n";
+  cout << "+-------+-------+-------+-------+\n";
+  cout << "+         count = ";
+  cout << setw(5) << this->count << "  ";
+  cout << "       +\n";
 
   // Print the table footer
-  std::cout << "+-------+-------+-------+-------+\n";
+  cout << "+-------+-------+-------+-------+\n";
 }
 
 template <class T>
@@ -143,32 +168,58 @@ void DLinkedList<T>::add(int index, const T &e)
   {
     return;
   }
+
   Node *newNode = new Node(e);
+  // if there were nothing
+  if (this->count == 0)
+  {
+    this->head = newNode;
+    this->tail = newNode;
+    this->count++;
+    return;
+  }
+
   // case 1: insert at index = 0, beginner of the list
   if (index == 0)
   {
     newNode->next = this->head;
-  }
-  if (this->head != nullptr)
-  {
-    head->previous = newNode;
-  }
-  head = newNode;
-  this->count++;
-  return;
+    if (this->head != nullptr)
+    {
+      cout << "insert at index = 0, beginner of the list" << endl;
 
+      this->head->previous = newNode;
+    }
+    this->head = newNode;
+    this->count++;
+    return;
+  }
+  cout << "index =" << index << "; count = " << this->count << endl;
   // case 2: insert at the end of the list
   if (index == this->count)
   {
-    tail->next = newNode;
-    newNode->previous = tail;
-    tail = newNode;
+    cout <<"case 2: insert at the end of the list"<<endl;
+    if (this->tail == nullptr)
+    {
+      cout << "here" << endl;
+      this->tail->next = newNode;
+      newNode->previous = this->tail;
+    }
+    else
+    {
+      cout << "not here" << endl;
+
+      this->tail->next = newNode;
+      newNode->previous = tail;
+    }
+    this->tail = newNode;
     this->count++;
     return;
   }
 
   // case 3: insert in the middle of the list
   Node *currentNode = this->head;
+  cout << "case 3: insert in the middle of the list" << endl;
+
   // với điểm dừng index - 1 thì cục current node sẽ
   for (int i = 0; i < index - 1; i++)
   {
@@ -181,51 +232,8 @@ void DLinkedList<T>::add(int index, const T &e)
   {
     newNode->next->previous = newNode;
   }
+  this->count++;
 }
-
-// template <class T>
-// void DLinkedList<T>::add(int index, const T &e)
-// {
-//   /* Insert an element into the list at given index. */
-//   Node *newNode = new Node(e);
-//   // lần đầu khi mảng chưa có gì thì zô đây
-//   if (this->count == 0)
-//   {
-//     this->head = newNode;
-//     this->tail = newNode;
-//   }
-//   // lần 2 sẽ là zô đít
-//   else if (this->count == index)
-//   {
-//     this->tail->next = newNode;
-//     newNode->previous = this->tail;
-//   }
-//   // lần 3 zô khi mảng đã có hàng họ đủ rồi
-//   else
-//   {
-//     int i = 0;
-
-//     Node *tmp = this->head;
-//     while (tmp != nullptr)
-//     {
-
-//       if (i == index)
-//       {
-//         newNode->next = tmp->next;
-//         tmp->next = newNode;
-//         newNode->previous = tmp;
-//         if (newNode->next != nullptr)
-//         {
-//           newNode->next->previous = newNode;
-//         }
-//         break;
-//       }
-//       i++;
-//       tmp = tmp->next;
-//     }
-//   }
-//   this->count++;
-// }
 
 template <class T>
 int DLinkedList<T>::size()
@@ -244,6 +252,12 @@ int main()
     list.add(0, idx);
   }
   cout << list.toString() << endl;
+  list.toNodeString();
+  cout << "list.size()-1 = " << list.size() - 1 << endl;
+  list.add(list.size() - 1, 99);
+  list.toNodeString();
+
+  list.add(list.size(), 77);
   list.toNodeString();
   // [0,1,2,3,4,5,6,7,8,9]
   return 0;
