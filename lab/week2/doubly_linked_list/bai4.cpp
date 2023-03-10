@@ -147,6 +147,9 @@ template <class T>
 void DLinkedList<T>::clear()
 {
   /* Remove all elements in list */
+  if(this->count== 0){
+    return;
+  }
   Node *currentNode = this->head;
   while (currentNode != nullptr)
   {
@@ -160,7 +163,7 @@ void DLinkedList<T>::clear()
 }
 
 //----------------------------------------
-//-----------end --------------
+//----------------------end --------------
 //----------------------------------------
 
 template <class T>
@@ -232,7 +235,7 @@ void DLinkedList<T>::toNodeString()
   cout << "+ head  = ";
   if (this->head == nullptr)
   {
-    cout << "null+ ";
+    cout << "null + ";
   }
   else
   {
@@ -468,22 +471,27 @@ int main()
   list.removeItem(list.get(list.size() - 1));
   list.toNodeString();
 
+  list.clear();
+  list.toNodeString();
+
   DLinkedList<int> listOnly;
-  listOnly.add(99);
   listOnly.toNodeString();
 
-  // TH DB1: remove at for list only
-  cout << "TH DB1: remove at for list only" << endl;
-  listOnly.removeAt(0);
-  listOnly.toNodeString();
-  cout << "NEW QUEEN CAME UP" << endl;
-  listOnly.add(66);
-  listOnly.toNodeString();
+  list.clear();
+  list.toNodeString();
 
-  // TH DB2: remove item for list only
-  cout << "TH DB2: remove item for list only (" <<list.get(0)<<") end" << endl;
-  listOnly.removeItem(66);
-  listOnly.toNodeString();
+  // // TH DB1: remove at for list only
+  // cout << "TH DB1: remove at for list only" << endl;
+  // listOnly.removeAt(0);
+  // listOnly.toNodeString();
+  // cout << "NEW QUEEN CAME UP" << endl;
+  // listOnly.add(66);
+  // listOnly.toNodeString();
+
+  // // TH DB2: remove item for list only
+  // cout << "TH DB2: remove item for list only (" <<list.get(0)<<") end" << endl;
+  // listOnly.removeItem(66);
+  // listOnly.toNodeString();
 
   return 0;
 }
