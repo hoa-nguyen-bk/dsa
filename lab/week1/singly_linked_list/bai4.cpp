@@ -97,7 +97,7 @@ public:
   };
 };
 
-
+// Start interator
 
 template <class T>
 SLinkedList<T>::Iterator::Iterator(SLinkedList<T> *pList, bool begin)

@@ -119,7 +119,7 @@ DLinkedList<T>::Iterator::Iterator(DLinkedList<T> *pList, bool begin)
   {
     if (this->pList != nullptr)
     {
-      this->current = pList->tail;
+      this->current = nullptr;
       this->index = pList->size();
     }
     else
