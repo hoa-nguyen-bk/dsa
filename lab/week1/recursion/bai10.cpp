@@ -2,26 +2,16 @@
 #include <string>
 
 using namespace std;
-int mininumBracketAdd(string s)
-{
-  // Base case: empty string
-  if (s == "") {
-    return 0;
-  }
-  // Recursive case: first character is closing bracket
-  if (s[0] == ')') {
-    return 1 + mininumBracketAdd(s.substr(1));
-  }
-  // Recursive case: find the next closing bracket
-  size_t nextClosedBracket = s.find(')');
-  if (nextClosedBracket != string::npos) {
-    // Remove the opening and closing brackets
-    string newCutString = s.substr(1, nextClosedBracket - 1) + s.substr(nextClosedBracket + 1);
-    // Recursive call with the modified string
-    return mininumBracketAdd(newCutString);
-  }
-  // Recursive case: no closing bracket found
-  return 1 + mininumBracketAdd(s.substr(1));
+int find(string& s, int idx, int open, int close){
+  if(idx>=(int)s.length()) return open+close;
+  if(s[idx]==')' && open == 0) return find(s, idx+1,open,close+1);
+  if(s[idx]==')'&&open>0) return find(s,idx+1,open-1,close);
+  return find(s,idx+1,open+1,close);
+}
+
+int mininumBracketAdd(string s) {
+    // STUDENT ANSWER
+    return find(s,0,0,0);
 }
 
 int main()
