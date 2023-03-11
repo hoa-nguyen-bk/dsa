@@ -37,7 +37,6 @@ ListNode *reverse(ListNode *head, int a, int b)
   // check if list is still null
   if (start == nullptr)
   {
-    cout << "start == nullptr" << endl;
     return head;
   }
 
@@ -46,8 +45,6 @@ ListNode *reverse(ListNode *head, int a, int b)
   ListNode *next = nullptr;
   for (int i = a; i <= b && end != nullptr; i++)
   {
-    cout << "i = " << i << endl;
-    cout << "end->right = " << end->right->val << "; end->left = " << end->left->val << endl;
     // di chuyển tới cái node típ theo
     next = end->right;
     // lấy cái bên phải giờ thành cái bên trái, để lên đc 1 đv
@@ -56,8 +53,6 @@ ListNode *reverse(ListNode *head, int a, int b)
     end->left = next;
     // giờ thì nó là next
     end = next;
-    cout << "result" << endl;
-    cout << "; end->left = " << end->left->val << endl;
   }
 
   // Update the links between prev and start, and between end and next
@@ -65,7 +60,6 @@ ListNode *reverse(ListNode *head, int a, int b)
   ListNode *tmp = start;
   if (start != nullptr && end != nullptr)
   {
-    cout << "inside here" << endl;
     start->val = end->val;
     end->val = tmp->val;
   }
