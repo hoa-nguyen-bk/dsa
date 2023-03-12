@@ -1,6 +1,8 @@
 #include <iostream>
 #include <iomanip>
 using namespace std;
+#ifndef DOUBLY_LINKED_LIST_CPP
+#define DOUBLY_LINKED_LIST_CPP
 template <class T>
 class DLinkedList
 {
@@ -428,3 +430,4 @@ bool DLinkedList<T>::contains(const T &item)
   }
   return false;
 }
+#endif // DOUBLY_LINKED_LIST_CPP
