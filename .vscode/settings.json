@@ -104,7 +104,8 @@
     "shared_mutex": "cpp",
     "thread": "cpp",
     "typeindex": "cpp",
-    "valarray": "cpp"
+    "valarray": "cpp",
+    "stack": "cpp"
   },
   "C_Cpp_Runner.useAddressSanitizer": false
 }
