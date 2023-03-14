@@ -7,7 +7,7 @@ bool isValidParentheses(string s)
   stack<char> parentheses;
   for (char c : s)
   {
-    cout << "outside if"<<endl;
+    cout << "outside if" << endl;
     if (c == '(' || c == '[' || c == '{')
     {
       cout << "first par " << c << "." << endl;
@@ -25,12 +25,13 @@ bool isValidParentheses(string s)
       if ((c == ')' && top != '(') || (c == ']' && top != '[') || (c == '}' && top != '}'))
       {
         return false;
-      } else if ((c == ')' && top == '(') || (c == ']' && top == '[') || (c == '}' && top == '}')){
+      }
+      else if ((c == ')' && top == '(') || (c == ']' && top == '[') || (c == '}' && top == '}'))
+      {
 
-      parentheses.pop();
-       }
+        parentheses.pop();
+      }
     }
-    
   }
   return parentheses.empty();
 }
@@ -42,6 +43,6 @@ int main()
   // 1
   // cout << isValidParentheses("[)");
   // 0
-  cout << isValidParentheses("[)]");
+  cout << isValidParentheses("[((())])");
   return 0;
 }
