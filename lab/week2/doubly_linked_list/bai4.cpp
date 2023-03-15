@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../doubly_linked_list.h"
+#include "../doubly_linked_list.cpp"
 using namespace std;
 
 int main()
@@ -50,21 +50,27 @@ int main()
   DLinkedList<int> listOnly;
   listOnly.toNodeString();
 
-  list.clear();
-  list.toNodeString();
+  for (int idx = 0; idx < size; idx++)
+  {
+    listOnly.add(value[idx]);
+  }
 
-  // // TH DB1: remove at for list only
-  // cout << "TH DB1: remove at for list only" << endl;
-  // listOnly.removeAt(0);
-  // listOnly.toNodeString();
-  // cout << "NEW QUEEN CAME UP" << endl;
-  // listOnly.add(66);
-  // listOnly.toNodeString();
+  // TH DB1: remove at for list only
+  cout << "TH DB1: remove at for list only" << endl;
+  listOnly.removeAt(0);
+  listOnly.toNodeString();
+  cout << "NEW QUEEN CAME UP" << endl;
+  listOnly.add(66);
+  listOnly.toNodeString();
 
-  // // TH DB2: remove item for list only
-  // cout << "TH DB2: remove item for list only (" <<list.get(0)<<") end" << endl;
-  // listOnly.removeItem(66);
-  // listOnly.toNodeString();
+  // TH DB2: remove item for list only
+  cout << "TH DB2: remove item for list only (" <<listOnly.get(0)<<") end" << endl;
+  listOnly.removeItem(66);
+  listOnly.toNodeString();
 
+  cout << endl;
+  cout << "+---------------------+" << endl;
+  cout << "+:) end with no error +" << endl;
+  cout << "+---------------------+" << endl;
   return 0;
 }

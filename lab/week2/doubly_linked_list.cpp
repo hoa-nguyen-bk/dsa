@@ -57,11 +57,12 @@ public:
 //----------------------------------------
 //-----------start bai 4--------------
 //----------------------------------------
+
 template <class T>
 T DLinkedList<T>::removeAt(int index)
 {
   /* Remove element at index and return removed value */
-  if (this->count == 0 || index < 0 || index > this->count)
+  if (this->count == 0 || index < 0 || index > this->count||this->head==nullptr)
   {
     throw out_of_range("Index out of range");
   }
@@ -72,49 +73,37 @@ T DLinkedList<T>::removeAt(int index)
   {
     this->head = nullptr;
     this->tail = nullptr;
-    this->count = 0;
-    T data = currentNode->data;
     delete currentNode;
+    this->count--;
+    T data = currentNode->data;
     return data;
   }
-
-  Node *previousNode = nullptr;
-
-  for (int i = 0; i < index; ++i)
+  /* traverse up to the node at position 'n' from
+         the beginning */
+  for (int i = 0; currentNode != nullptr && i < index; ++i)
   {
-    previousNode = currentNode;
     currentNode = currentNode->next;
-    currentNode->previous = previousNode;
   }
-  // if index = 0, chỉ có 1 thằng là tại vị trí đầu
-  if (previousNode == nullptr)
-  {
-    // cho thằng head là node tiếp theo
-    this->head = currentNode->next;
-    // vị trí đầu thì dĩ nhiên next prev null rồi
-    currentNode->next->previous = nullptr;
-  }
-  // còn nếu là vị trí còn lại
-  else
-  {
-    // cho node trước bằng với node sau của sau luôn, dán liền 2 nốt cách 1 cục current head lại
 
-    Node *nextNode = currentNode->next;
-    if (nextNode == nullptr)
-    {
-      this->tail = previousNode;
-      previousNode->next = nullptr;
-    }
-    else
-    {
-      previousNode->next = nextNode;
-      // còn node sau nối bằng node trước, chỗ này tách node cho dễ hiểu thôi
-      nextNode->previous = previousNode;
-    }
+  /* If node to be deleted is head node */
+  if (this->head == currentNode)
+  {
+    this->head = currentNode->next;
+  }
+  /* Change next only if node to be deleted is NOT
+       the last node */
+  if (currentNode->next != nullptr)
+  {
+    currentNode->next->previous = currentNode->previous;
+  }
+  /* Change prev only if node to be deleted is NOT
+       the first node */
+  if (currentNode->previous != nullptr)
+  {
+    currentNode->previous->next = currentNode->next;
   }
 
   T data = currentNode->data;
-
   delete currentNode;
   this->count--;
   return data;
@@ -149,7 +138,8 @@ template <class T>
 void DLinkedList<T>::clear()
 {
   /* Remove all elements in list */
-  if(this->count== 0){
+  if (this->count == 0)
+  {
     return;
   }
   Node *currentNode = this->head;
