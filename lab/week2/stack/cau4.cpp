@@ -17,20 +17,13 @@ bool isValidParentheses(string s)
     {
       cout << "closed par " << c << "." << endl;
       if (parentheses.empty())
-      {
         return false;
-      }
       char top = parentheses.top();
       cout << "Top = " << top << ";" << endl;
-      if ((c == ')' && top != '(') || (c == ']' && top != '[') || (c == '}' && top != '}'))
-      {
+      if ((c == ')' && top != '(') || (c == ']' && top != '[') || (c == '}' && top != '{'))
         return false;
-      }
-      else if ((c == ')' && top == '(') || (c == ']' && top == '[') || (c == '}' && top == '}'))
-      {
-
+      else if ((c == ')' && top == '(') || (c == ']' && top == '[') || (c == '}' && top == '{'))
         parentheses.pop();
-      }
     }
   }
   return parentheses.empty();
