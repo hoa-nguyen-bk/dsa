@@ -130,13 +130,9 @@ SLinkedList<T>::Iterator::Iterator(SLinkedList<T> *pList, bool begin)
   {
     current = NULL;
     if (this->pList)
-    {
       index = pList->size();
-    }
     else
-    {
       index = 0;
-    }
   }
 }
 

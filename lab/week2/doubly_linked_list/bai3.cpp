@@ -190,6 +190,7 @@ void DLinkedList<T>::Iterator::remove()
 
   if (this->current == nullptr)
     throw std::out_of_range("Segmentation fault!");
+
   else if (this->index != 0)
   {
     this->current = pList->head;
@@ -220,18 +221,25 @@ void DLinkedList<T>::Iterator::remove()
 template <class T>
 typename DLinkedList<T>::Iterator &DLinkedList<T>::Iterator::operator++()
 {
-  if (this->current == nullptr)
-    throw std::out_of_range("Segmentation fault!");
-  this->current = this->current->next;
-  this->index++;
+  if (this->current == nullptr && index == -1)
+  {
+    current = pList->head;
+    index = 0;
+  }
+  else
+  {
+
+    this->current = this->current->next;
+    this->index++;
+  }
   return *this;
 }
 
 template <class T>
 typename DLinkedList<T>::Iterator DLinkedList<T>::Iterator::operator++(int)
 {
-  if (this->current == nullptr)
-    throw std::out_of_range("Segmentation fault!");
+  // if (this->current == nullptr)
+  // throw std::out_of_range("Segmentation fault!");
   Iterator *temp = this;
   ++(*this);
   return *temp;
