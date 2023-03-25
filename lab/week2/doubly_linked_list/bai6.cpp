@@ -16,7 +16,9 @@ struct ListNode
   ListNode *right;
   ListNode(int x = 0, ListNode *l = nullptr, ListNode *r = nullptr) : val(x), left(l), right(r) {}
 };
-
+//______________________________
+//________ Start Bài nộp _______
+//______________________________
 ListNode *reverse(ListNode *head, int a, int b)
 {
   if (head == nullptr || a == b)
@@ -75,7 +77,9 @@ ListNode *reverse(ListNode *head, int a, int b)
 
   return head;
 }
-
+//______________________________
+//________ End Bài nộp _______
+//______________________________
 // chat gpt func
 ListNode *init(int *arr, int size, unordered_map<ListNode *, int> &nodeValue)
 {
