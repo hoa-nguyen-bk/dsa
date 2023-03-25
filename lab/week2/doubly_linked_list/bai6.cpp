@@ -19,64 +19,38 @@ struct ListNode
 /*______________________________
 ________ Start Bài nộp _______
 ______________________________*/
-ListNode *reverse(ListNode *head, int a, int b)
-{
-  if (head == nullptr || a == b)
-  {
+ListNode* reverse(ListNode* head, int a, int b) {
+    if (!head) return nullptr;
+    if (a == b) return head;
+
+     ListNode* prev_a = nullptr;
+    ListNode* node_a = head;
+    for (int i = 1; i < a; i++) {
+        prev_a = node_a;
+        node_a = node_a->right;
+    }
+    ListNode* prev = prev_a;
+    ListNode* curr = node_a;
+    ListNode* next = nullptr;
+    for (int i = a; i <= b; i++) {
+        next = curr->right;
+        curr->right = prev;
+        curr->left = next;
+        prev = curr;
+        curr = next;
+    }
+    if (prev_a != nullptr) {
+        prev_a->right = prev;
+    } else {
+        head = prev;
+    }
+    node_a->right = curr;
+    if (curr != nullptr) {
+        curr->left = node_a;
+    }
     return head;
-  }
-
-  // B1: Traverse the list until we reach the node at position a. Let's call this node start.
-  ListNode *start = head;
-  // B2: Keep a reference to the node that precedes start. Let's call this node prev.
-  ListNode *prev = nullptr;
-  // B3: Traverse the list until we reach the node at position a.
-  for (int i = 1; i < a && start != nullptr; i++)
-  {
-    prev = start;
-    start = start->right;
-  }
-  // check if list is still null
-  if (start == nullptr)
-  {
-    return head;
-  }
-
-  // Reverse the links between start and end
-  ListNode *end = start;
-  ListNode *next = nullptr;
-  for (int i = a; i <= b && end != nullptr; i++)
-  {
-    // di chuyển tới cái node típ theo
-    next = end->right;
-    // lấy cái bên phải giờ thành cái bên trái, để lên đc 1 đv
-    end->right = end->left;
-    // lấy cái bên trái là cái hiện tại;
-    end->left = next;
-    // giờ thì nó là next
-    end = next;
-  }
-
-  // Update the links between prev and start, and between end and next
-  // nếu prev tồn tại
-  ListNode *tmp = start;
-  if (start != nullptr && end != nullptr)
-  {
-    start->val = end->val;
-    end->val = tmp->val;
-  }
-  if (a == 1)
-  {
-    head = end;
-  }
-
-  if (next != nullptr)
-  {
-    next->left = start;
-  }
-
-  return head;
 }
+
 /*______________________________
 ________ End Bài nộp _______
 ______________________________*/
@@ -131,17 +105,17 @@ void printList(ListNode *head, unordered_map<ListNode *, int> &nodeValue)
 // end chatgpt func
 int main()
 {
-  int size = 5;
+  int size = 3;
   int *list = new int[size];
   for (int i = 0; i < size; i++)
   {
-    list[i] = i + 3;
+    list[i] = i + 8;
   }
   // input
-  // 5
-  // 3 4 5 6 7
-  // 2 4
-  int a = 2, b = 4;
+  // 3
+  // 8 9 10
+  // 1 3
+  int a = 1, b = 3;
   unordered_map<ListNode *, int> nodeValue;
   ListNode *head = init(list, size, nodeValue);
   ListNode *reversed = reverse(head, a, b);
@@ -153,7 +127,8 @@ int main()
   {
     cout << err << '\n';
   }
-  // output 3 6 5 4 7
+  // output
+  // 8 9 10
   freeMem(head);
   delete[] list;
   return 0;
