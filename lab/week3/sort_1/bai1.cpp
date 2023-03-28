@@ -1,80 +1,132 @@
-
-#include <sstream>
 #include <iostream>
-#include <type_traits>
+#include <sstream>
 using namespace std;
+
 template <class T>
-class Sorting
+class SLinkedList
 {
-private:
-  static void printArray(T *start, T *end)
+public:
+  class Node; // Forward declaration
+protected:
+  Node *head;
+  Node *tail;
+  int count;
+
+public:
+  SLinkedList()
   {
-    int size = end - start;
-    for (int i = 0; i < size; i++)
-      cout << start[i] << " ";
-    cout << endl;
+    this->head = nullptr;
+    this->tail = nullptr;
+    this->count = 0;
+  }
+  ~SLinkedList(){};
+  void add(T e)
+  {
+    Node *pNew = new Node(e);
+
+    if (this->count == 0)
+    {
+      this->head = this->tail = pNew;
+    }
+    else
+    {
+      this->tail->next = pNew;
+      this->tail = pNew;
+    }
+
+    this->count++;
+  }
+  int size()
+  {
+    return this->count;
+  }
+  void printList()
+  {
+    stringstream ss;
+    ss << "[";
+    Node *ptr = head;
+    while (ptr != tail)
+    {
+      ss << ptr->data << ",";
+      ptr = ptr->next;
+    }
+
+    if (count > 0)
+      ss << ptr->data << "]";
+    else
+      ss << "]";
+    cout << ss.str() << endl;
   }
 
 public:
-  static void sortSegment(T *start, T *end, int segment_idx, int cur_segment_total)
+  class Node
   {
-    // TODO
-    // Calculate the segment size
-    int k = cur_segment_total;
-    int count = (end - start);
-    if (count <= 0)
-      return;
+  private:
+    T data;
+    Node *next;
+    friend class SLinkedList<T>;
 
-    int current = segment_idx + k;
-    while (current < count)
+  public:
+    Node()
     {
-
-      T temp = start[current];
-      int walker = current - k;
-      while (walker >= 0 && temp < start[walker])
-      {
-        start[walker + k] = start[walker];
-        walker = walker - k;
-      }
-      start[walker + k] = temp;
-      current = current + k;
+      next = 0;
     }
-  }
-
-  static void ShellSort(T *start, T *end, int *num_segment_list, int num_phases)
-  {
-    // TODO
-    // Note: You must print out the array after sorting segments to check whether your algorithm is true.
-    // Iterate over each phase, lấy từ cái 5 segment đổ xún, là lấy cái cuối đổ xún
-    for (int phase = num_phases - 1; phase >= 0; phase--)
+    Node(T data)
     {
-      // Get the number of segments and the segment size for the current phase
-      int k = num_segment_list[phase];
-      if (k < 1)
+      this->data = data;
+      this->next = nullptr;
+    }
+  };
+
+  void bubbleSort();
+};
+template <class T>
+void SLinkedList<T>::bubbleSort()
+{
+  int current = this->count - 1;
+  bool flag = false;
+  while (current > 0 && flag == false)
+  {
+    int walker = 0; // vậy khác gì tail
+    flag = true;
+    while (walker < current)
+    {
+      // lấy data walker
+      if (this->head == nullptr)
         return;
 
-      int segment = 0;
-      // Sort each segment for the current phase
-      while (segment <= k)
+      Node *temp = this->head;
+      int i = 0;
+      while (i < walker)
       {
-        sortSegment(start, end, segment, k);
-        segment++;
-      }
 
-      // Print the sorted array for the current phase
-      cout << k << " segments: ";
-      printArray(start, end);
+        temp = temp->next;
+        i++;
+      }
+      if (temp->data > temp->next->data)
+      {
+        flag = false;
+        // swap
+        T swapData = temp->data;
+        temp->data = temp->next->data;
+        temp->next->data = swapData;
+      }
+      walker = walker + 1;
     }
+    current = current - 1;
+    this->printList();
   }
-};
+}
 int main()
 {
-  int num_segment_list[] = {1, 3, 5};
-  int num_phases = 3;
-  int array[] = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1};
-  Sorting<int>::ShellSort(&array[0], &array[10], &num_segment_list[0], num_phases);
-  // 5 segments: 5 4 3 2 1 10 9 8 7 6
-  // 3 segments: 2 1 3 5 4 7 6 8 10 9
-  // 1 segments: 1 2 3 4 5 6 7 8 9 10
+  int arr[] = {9, 2, 8, 4, 1};
+  SLinkedList<int> list;
+  for (int i = 0; i < int(sizeof(arr)) / 4; i++)
+    list.add(arr[i]);
+  list.bubbleSort();
+  // [2,8,4,1,9]
+  // [2,4,1,8,9]
+  // [2,1,4,8,9]
+  // [1,2,4,8,9]
   return 0;
 }
