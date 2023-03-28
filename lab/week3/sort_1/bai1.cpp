@@ -26,28 +26,18 @@ public:
       return;
 
     int current = segment_idx + k;
-    cout << "current = " << current << "; count = " << count << endl;
     while (current < count)
     {
 
       T temp = start[current];
       int walker = current - k;
-      cout << "temp = " << temp << "; walker = " << walker << endl;
       while (walker >= 0 && temp < start[walker])
       {
         start[walker + k] = start[walker];
-        cout << "start[walker + k] [" << walker + k << "]  = start[walker][" << walker << "]" << endl;
-        cout << "while: ";
-        printArray(start, end);
         walker = walker - k;
-        cout << "walker - k = " << walker << endl;
       }
       start[walker + k] = temp;
       current = current + k;
-      cout << "walker + k = " << walker + k << "; current + k = " << current << endl;
-      cout << "out: ";
-      printArray(start, end);
-      cout << endl;
     }
   }
 
@@ -62,21 +52,16 @@ public:
       int k = num_segment_list[phase];
       if (k < 1)
         return;
-      int segment_size = (end - start) / k;
 
       int segment = 0;
+      // Sort each segment for the current phase
       while (segment <= k)
       {
-        cout << "segment = " << segment << "; k = " << k << endl;
         sortSegment(start, end, segment, k);
         segment++;
       }
 
-      cout << segment_size << " = segment size" << endl;
-      // Sort each segment for the current phase
-
       // Print the sorted array for the current phase
-      cout << "========== ";
       cout << k << " segments: ";
       printArray(start, end);
     }
