@@ -26,27 +26,37 @@ public:
     // TODO: return the pointer which points to the pivot after rearrange the array.
     T p = *start;
     cout << "pivot = " << p << endl;
-    T *i = start - 1;
-    T *j = end;
-    cout << " i[" << i << "] = " << *i << "; j[" << j << "] = " << *(j - 2) << endl;
-    cout << "Gia tri A[i] = "<< start[*i]<<endl;
-    while (*i < *j)
+    cout << "start = " << start << endl;
+    T *i = start - 1; // -1 để ra được vị trí đang đứng chính là 0
+    T *j = end - 1;
+    cout << " i[" << i << "] = " << *i << "; j[" << j << "] = " << *(j - 1) << endl;
+    cout << "Gia tri A[i] = " << start[*i] << endl;
+    do
     {
-      while (*i < p)
+      do
       {
-        cout << "*i < p = " << *i << endl;
-        i++;
-      }
-      while (*j > p)
+        cout << "*i [" << *i << "] = " << start[*i] << endl;
+        *i = *i + 1;
+        cout << "*i [" << *i << "] = " << start[*i] << " < p = " << p << endl;
+      } while (start[*i] < p);
+
+      do
       {
-        j--;
-        cout << "*j = " << *j << " > p = " << p << endl;
-      }
+        cout << "j [" << *j << "] =" << start[*j] << endl;
+        *j = *j - 1;
+        cout << "j [" << *j << "] =" << start[*j] << " > p = " << p << endl;
+
+      } while (start[*j] > p);
+
       cout << "swap" << endl;
-      swap(*i, *j);
-    }
-    swap(*i, *j);
-    swap(*start, *j);
+
+      T temp = start[*i]; // swap(*i, *j);
+      cout << "temp = " << temp << endl;
+      start[*i] = start[*j];
+      start[*j] = temp;
+    } while (*i < *j);
+    // swap(*i, *j);
+    // swap(*start, *j);
     return j;
   }
 
@@ -55,13 +65,12 @@ public:
     // TODO
     // In this question, you must print out the index of pivot in subarray after everytime calling method Partition.
 
-    if (end <= start)
+    if (start >= end)
       return; // Don’t sort 0 or 1 element
 
     cout << "start = " << start[0] << "; end = " << start[end - start - 1] << endl;
-    int *pivot_index = Partition(start, end);
+    T *pivot_index = Partition(start, end);
     cout << "pivot index = " << *pivot_index << endl;
-    cout << "QuickSort(" << start << " , " << pivot_index << ")" << endl;
     // QuickSort(start, pivot_index);
     // QuickSort(pivot_index + 1, end);
   }
