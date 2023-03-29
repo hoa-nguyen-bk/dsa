@@ -19,46 +19,47 @@ public:
   {
     // TODO: return the pointer which points to the pivot after rearrange the array.
     T p = *start;
-    T *i = start - 1; // -1 để ra được vị trí đang đứng chính là 0
-    T *j = end - 1;
+    int i = 0; // -1 để ra được vị trí đang đứng chính là 0
+    int j = end - start;
     do
     {
       do
       {
-        *i = *i + 1;
-      } while (start[*i] < p);
+        i = i + 1;
+      } while (start[i] < p);
 
       do
       {
-        *j = *j - 1;
+        j = j - 1;
 
-      } while (start[*j] > p);
+      } while (start[j] > p);
 
-      T temp = start[*i]; // swap(A[i],A[j])
-      start[*i] = start[*j];
-      start[*j] = temp;
-    } while (*i < *j);
+      T temp = start[i]; // swap(A[i],A[j])
+      start[i] = start[j];
+      start[j] = temp;
+    } while (i < j);
 
-    T temp1 = start[*i]; // swap(A[i],A[j])
-    start[*i] = start[*j];
-    start[*j] = temp1;
+    T temp1 = start[i]; // swap(A[i],A[j])
+    start[i] = start[j];
+    start[j] = temp1;
 
     T temp2 = *start; //  swap(A[l],A[j])
-    *start = start[*j];
-    start[*j] = temp2;
-    return j;
+    *start = start[j];
+    start[j] = temp2;
+    return (start + j); // để ra được địa chỉ j
   }
 
-  static void QuickSort(T *start, T *end)
+  static void
+  QuickSort(T *start, T *end)
   {
     // TODO
     // In this question, you must print out the index of pivot in subarray after everytime calling method Partition.
 
-    if (*(start - 1) < *(end - 1))
+    if (start < end)
     {
       T *pivot_position = Partition(start, end);
-      cout << *pivot_position << " ";
-      QuickSort(start, pivot_position - 1);
+      cout << pivot_position - start << " ";
+      QuickSort(start, pivot_position);
       QuickSort(pivot_position + 1, end);
     }
   }
