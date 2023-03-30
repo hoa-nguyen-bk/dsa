@@ -1,5 +1,7 @@
 #include <iostream>
 #include <string>
+#include <algorithm>
+#include <sstream>
 using namespace std;
 
 template <class K, class V>
@@ -56,8 +58,6 @@ public:
       walker->pRight = new Node(key, value);
   }
 
-  // STUDENT ANSWER BEGIN
-  // You can define other functions here to help you.
   int countTwoChildrenNode(Node *node)
   {
     if (node == nullptr)
@@ -73,6 +73,36 @@ public:
   {
     return countTwoChildrenNode(this->root);
   }
+
+  int recursiveHeight(Node *temp)
+  {
+    if (temp == nullptr)
+      return 0;
+    return max(recursiveHeight(temp->pLeft), recursiveHeight(temp->pRight)) + 1;
+  }
+  int getHeight()
+  {
+    // TODO: return height of the binary tree.
+    return recursiveHeight(this->root);
+  }
+
+  // STUDENT ANSWER BEGIN
+  // You can define other functions here to help you
+  // Helping functions
+  int recursiveSumOfLeafs(Node *node)
+  {
+    if (node == nullptr)
+      return 0;
+    if (node->pLeft == nullptr && node->pRight == nullptr)
+      return node->value;
+    return recursiveSumOfLeafs(node->pLeft) + recursiveSumOfLeafs(node->pRight);
+  }
+  int sumOfLeafs()
+  {
+    // TODO
+    return recursiveSumOfLeafs(this->root);
+  }
+
   // STUDENT ANSWER END
 };
 
@@ -80,14 +110,14 @@ int main()
 {
   BinaryTree<int, int> binaryTree;
   binaryTree.addNode("", 2, 4);
-  binaryTree.addNode("L", 3, 6);
-  binaryTree.addNode("R", 5, 9);
-  binaryTree.addNode("LL", 4, 10);
-  binaryTree.addNode("LLR", 6, 2);
-  binaryTree.addNode("LLL", 6, 2);
-  binaryTree.addNode("LR", 6, 2);
-  binaryTree.addNode("LR", 6, 2);
-  cout << binaryTree.countTwoChildrenNode();
-  // output: 1
+  cout << binaryTree.sumOfLeafs();
+  // output:
+  // 4
+  BinaryTree<int, int> binaryTree2;
+  binaryTree2.addNode("", 2, 4);
+  binaryTree2.addNode("L", 3, 6);
+  binaryTree2.addNode("R", 5, 9);
+  cout << binaryTree2.sumOfLeafs();
+  // output: 15
   return 0;
 }

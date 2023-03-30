@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <queue>
 using namespace std;
 
 template <class K, class V>
@@ -58,36 +59,33 @@ public:
 
   // STUDENT ANSWER BEGIN
   // You can define other functions here to help you.
-  int countTwoChildrenNode(Node *node)
+
+  void BFS()
   {
-    if (node == nullptr)
-      return 0;
-    int count = 0;
-    if (node->pLeft != nullptr && node->pRight != nullptr)
-      count++;
-    count += countTwoChildrenNode(node->pLeft);
-    count += countTwoChildrenNode(node->pRight);
-    return count;
-  }
-  int countTwoChildrenNode()
-  {
-    return countTwoChildrenNode(this->root);
+    if (this->root == nullptr)
+      return;
+    queue<Node *> q;
+    q.push(root);
+    while (!q.empty())
+    {
+      Node *current = q.front();
+      cout << current->value << " ";
+      q.pop();
+      if (current->pLeft != nullptr)
+        q.push(current->pLeft);
+      if (current->pRight != nullptr)
+        q.push(current->pRight);
+    }
   }
   // STUDENT ANSWER END
 };
-
 int main()
 {
   BinaryTree<int, int> binaryTree;
-  binaryTree.addNode("", 2, 4);
-  binaryTree.addNode("L", 3, 6);
-  binaryTree.addNode("R", 5, 9);
-  binaryTree.addNode("LL", 4, 10);
-  binaryTree.addNode("LLR", 6, 2);
-  binaryTree.addNode("LLL", 6, 2);
-  binaryTree.addNode("LR", 6, 2);
-  binaryTree.addNode("LR", 6, 2);
-  cout << binaryTree.countTwoChildrenNode();
-  // output: 1
+  binaryTree.addNode("", 2, 4);  // Add to root
+  binaryTree.addNode("L", 3, 6); // Add to root's left node
+  binaryTree.addNode("R", 5, 9); // Add to root's right node
+  binaryTree.BFS();
+  // 4 6 9
   return 0;
 }
