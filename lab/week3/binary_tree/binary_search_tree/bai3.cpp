@@ -22,7 +22,6 @@ public:
     // You have to delete all Nodes in BinaryTree. However in this task, you can ignore it.
   }
 
-  // Helping function
   void add(T value)
   {
     root = addRec(root, value);
@@ -101,7 +100,7 @@ public:
   string inOrder()
   {
     stringstream ss;
-    cout << "("<< root->value <<")"<<endl;
+    cout << "(" << root->value << ")" << endl;
 
     inOrderRec(root, ss);
     return ss.str();
@@ -116,6 +115,7 @@ public:
       inOrderRec(node->pRight, ss);
     }
   }
+
   T getMin()
   {
     if (root == nullptr)
@@ -131,7 +131,7 @@ public:
       {
         min = current->value;
       }
-    } 
+    }
     return current->value;
   }
 
@@ -154,6 +154,59 @@ public:
     return max;
   }
 
+  // STUDENT ANSWER BEGIN
+  // You can define other functions here to help you.
+  bool recursiveFind(Node *temp, T i)
+  {
+    if (temp == nullptr)
+      return false;
+    else if (i < temp->value)
+      recursiveFind(temp->pLeft, i);
+    else if (i > temp->value)
+      recursiveFind(temp->pRight, i);
+    else
+      return true;
+  }
+  bool find(T i)
+  {
+    // TODO: return true if value i is in the tree; otherwise, return false.
+    Node *temp = this->root;
+    return recursiveFind(temp, i);
+  }
+
+  T sum(T l, T r)
+  {
+    return sumRec(root, l, r);
+  }
+
+  T sumRec(Node *node, T l, T r)
+  {
+    if (node == nullptr)
+    {
+      return 0;
+    }
+
+    T result = 0;
+
+    if (node->value >= l && node->value <= r)
+    {
+      result += node->value;
+    }
+
+    if (node->value > l)
+    {
+      result += sumRec(node->pLeft, l, r);
+    }
+
+    if (node->value < r)
+    {
+      result += sumRec(node->pRight, l, r);
+    }
+
+    return result;
+  }
+
+  // STUDENT ANSWER END
 public:
   class Node
   {
@@ -175,9 +228,9 @@ int main()
   {
     bst.add(i);
   }
-  cout << bst.inOrder() << endl;
-  cout << bst.getMin() << endl;
-  cout << bst.getMax() << endl;
-  // 0 9
+  cout << bst.find(7) << endl;
+  cout << bst.sum(0, 4) << endl;
+  // 1
+  // 10
   return 0;
 }
