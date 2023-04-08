@@ -40,10 +40,17 @@ public:
     return node;
   }
 
-  static BTNode *createTree(int arr[], int n, int value[])
+  static BTNode *createTree(int *arr, int *end, int *values)
   {
-    int i = 0;
-    return createTreeHelper(arr, n, value, i);
+    if (arr == end)
+    {
+      return NULL;
+    }
+    int *mid = arr + (end - arr) / 2;
+    BTNode *root = new BTNode(*values);
+    root->left = createTree(arr, mid, values + 1);
+    root->right = createTree(mid + 1, end, values + 1 + (mid - arr));
+    return root;
   }
 };
 void longestPathSum(BTNode *root, int &sum, int len)
@@ -88,5 +95,6 @@ int main()
   int value[] = {1, 5, 4, 7, 12, 4, 8, 2};
   BTNode *root = BTNode::createTree(arr, arr + sizeof(arr) / sizeof(int), value);
   cout << longestPathSum(root);
+  //18
   return 0;
 }
