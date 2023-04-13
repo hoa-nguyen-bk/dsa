@@ -2,6 +2,7 @@
 #include <math.h>
 #include <queue>
 using namespace std;
+#define isTest true
 #define SEPARATOR "#<ab@17943918#@>#"
 
 enum BalanceValue
@@ -97,37 +98,50 @@ public:
   }
 
   // Helping functions
-  // Helping functions
-
-  Node *rotateLeft(Node *&root)
+  void printScreen(string str)
   {
-    if (root == nullptr)
+    if (isTest)
     {
-      return root;
+      cout << str << endl;
     }
-    Node *tempPtr = root->pRight;
-    root->pRight = tempPtr->pLeft;
-    tempPtr->pLeft = root;
+  }
+  void printScreen(string str, T number)
+  {
+    if (isTest)
+    {
+      cout << str << " = " << number << endl;
+    }
+  }
+
+  Node *rotateLeft(Node *&childRoot)
+  {
+    if (childRoot == nullptr)
+    {
+      return childRoot;
+    }
+    Node *tempPtr = childRoot->pRight;
+    childRoot->pRight = tempPtr->pLeft;
+    tempPtr->pLeft = childRoot;
     return tempPtr;
   }
-  Node *rotateRight(Node *&root)
+  Node *rotateRight(Node *&childRoot)
   {
-    if (root == nullptr)
-      return root;
-    Node *tempPtr = root->pLeft;
-    root->pLeft = tempPtr->pRight;
-    tempPtr->pRight = root;
+    if (childRoot == nullptr)
+      return childRoot;
+    Node *tempPtr = childRoot->pLeft;
+    childRoot->pLeft = tempPtr->pRight;
+    tempPtr->pRight = childRoot;
     return tempPtr;
   }
 
-  Node *rightBalance(Node *&root, bool &taller)
+  Node *rightBalance(Node *&temp, bool &taller)
   {
-    Node *rightTree = root->pRight;
+    Node *rightTree = temp->pRight;
     // Case 1: right of right. Single rotation left
     if (rightTree->balance == RH)
     {
-      root = rotateLeft(root);
-      root->balance = EH;
+      temp = rotateLeft(temp);
+      temp->balance = EH;
       rightTree->balance = EH;
       taller = false;
     }
@@ -136,7 +150,7 @@ public:
       Node *leftTree = rightTree->pLeft;
       if (leftTree->balance == RH)
       {
-        root->balance = LH;
+        temp->balance = LH;
         rightTree->balance = EH;
       }
       else if (leftTree->balance == EH)
@@ -145,24 +159,24 @@ public:
       }
       else
       {
-        root->balance = EH;
+        temp->balance = EH;
         rightTree->balance = RH;
       }
       leftTree->balance = EH;
-      root->pRight = rotateRight(rightTree);
-      root = rotateLeft(root);
+      temp->pRight = rotateRight(rightTree);
+      temp = rotateLeft(temp);
       taller = false;
     }
-    return root;
+    return temp;
   }
-  Node *leftBalance(Node *&root, bool &taller)
+  Node *leftBalance(Node *&temp, bool &taller)
   {
-    Node *leftTree = root->pLeft;
+    Node *leftTree = temp->pLeft;
     // case 1: left of left. single rotation right
     if (leftTree->balance == LH)
     {
-      root = rotateRight(root);
-      root->balance = EH;
+      temp = rotateRight(temp);
+      temp->balance = EH;
       leftTree->balance = EH;
       taller = false;
     }
@@ -172,7 +186,7 @@ public:
       Node *rightTree = leftTree->pRight;
       if (rightTree->balance == LH)
       {
-        root->balance = RH;
+        temp->balance = RH;
         leftTree->balance = EH;
       }
       else if (rightTree->balance == EH)
@@ -181,65 +195,69 @@ public:
       }
       else
       {
-        root->balance = EH;
+        temp->balance = EH;
         leftTree->balance = LH;
       }
       rightTree->balance = EH;
-      root->pLeft = rotateLeft(leftTree);
-      root = rotateRight(root);
+      temp->pLeft = rotateLeft(leftTree);
+      temp = rotateRight(temp);
       taller = false;
     }
-    return root;
+    return temp;
   }
-  Node *AVLInsert(Node *&root, const T &data, bool &taller)
+  Node *AVLInsert(Node *&childRoot, const T &data, bool &taller)
   {
     // pLeft, pRight, data
     // **return: tree get higher?
-    if (root == NULL)
+    if (childRoot == NULL)
     {
-      root = new Node(data);
+      // printScreen("childRoot == NULL");
+      childRoot = new Node(data);
       taller = true;
-      return root;
+      return childRoot;
     }
-    else if (data < root->data)
+    else if (data < childRoot->data)
     {
-      root->pLeft = AVLInsert(root->pLeft, data, taller);
+      // printScreen("data < childRoot->data");
+      childRoot->pLeft = AVLInsert(childRoot->pLeft, data, taller);
       // left subtree is taller
       if (taller)
       {
-        if (root->balance == LH)
-          root = leftBalance(root, taller);
-        else if (root->balance == EH)
-          root->balance = LH;
+        if (childRoot->balance == LH)
+          childRoot = leftBalance(childRoot, taller);
+        else if (childRoot->balance == EH)
+          childRoot->balance = LH;
         else
         {
-          root->balance = EH;
+          childRoot->balance = EH;
           taller = false;
         }
       }
-      else
+    }
+    else
+    {
+      // printScreen("data >= childRoot->data");
+      childRoot->pRight = AVLInsert(childRoot->pRight, data, taller);
+      if (taller)
       {
-        root->pRight = AVLInsert(root->pRight, data, taller);
-        if (taller)
+        if (childRoot->balance == LH)
         {
-          if (root->balance == LH)
-          {
-            root->balance = EH;
-            taller = false;
-          }
-          else if (root->balance == EH)
-            root->balance = RH;
-          else
-            root = rightBalance(root, taller);
+          childRoot->balance = EH;
+          taller = false;
         }
+        else if (childRoot->balance == EH)
+          childRoot->balance = RH;
+        else
+          childRoot = rightBalance(childRoot, taller);
       }
     }
-    return root;
+    return childRoot;
   }
   void insert(const T &value)
   {
     // TODO
     bool taller = false;
+    // printScreen("value", value);
     AVLInsert(this->root, value, taller);
   }
 
