@@ -97,27 +97,150 @@ public:
   }
 
   // Helping functions
-  void add(Node *&root, const T &value)
+  // Helping functions
+
+  Node *rotateLeft(Node *&root)
   {
-    // pLeft, pRight, value
-    if (root == NULL)
+    if (root == nullptr)
     {
-      root = new Node(value);
+      return root;
     }
-    else if (value <= root->data)
+    Node *tempPtr = root->pRight;
+    root->pRight = tempPtr->pLeft;
+    tempPtr->pLeft = root;
+    return tempPtr;
+  }
+  Node *rotateRight(Node *&root)
+  {
+    if (root == nullptr)
+      return root;
+    Node *tempPtr = root->pLeft;
+    root->pLeft = tempPtr->pRight;
+    tempPtr->pRight = root;
+    return tempPtr;
+  }
+
+  Node *rightBalance(Node *&root, bool &taller)
+  {
+    Node *rightTree = root->pRight;
+    // Case 1: right of right. Single rotation left
+    if (rightTree->balance == RH)
     {
-      add(root->pLeft, value);
+      root = rotateLeft(root);
+      root->balance = EH;
+      rightTree->balance = EH;
+      taller = false;
     }
     else
     {
-      add(root->pRight, value);
+      Node *leftTree = rightTree->pLeft;
+      if (leftTree->balance == RH)
+      {
+        root->balance = LH;
+        rightTree->balance = EH;
+      }
+      else if (leftTree->balance == EH)
+      {
+        rightTree->balance = EH;
+      }
+      else
+      {
+        root->balance = EH;
+        rightTree->balance = RH;
+      }
+      leftTree->balance = EH;
+      root->pRight = rotateRight(rightTree);
+      root = rotateLeft(root);
+      taller = false;
     }
+    return root;
   }
-
+  Node *leftBalance(Node *&root, bool &taller)
+  {
+    Node *leftTree = root->pLeft;
+    // case 1: left of left. single rotation right
+    if (leftTree->balance == LH)
+    {
+      root = rotateRight(root);
+      root->balance = EH;
+      leftTree->balance = EH;
+      taller = false;
+    }
+    // case 2: right of left. Double rotation required
+    else
+    {
+      Node *rightTree = leftTree->pRight;
+      if (rightTree->balance == LH)
+      {
+        root->balance = RH;
+        leftTree->balance = EH;
+      }
+      else if (rightTree->balance == EH)
+      {
+        leftTree->balance = EH;
+      }
+      else
+      {
+        root->balance = EH;
+        leftTree->balance = LH;
+      }
+      rightTree->balance = EH;
+      root->pLeft = rotateLeft(leftTree);
+      root = rotateRight(root);
+      taller = false;
+    }
+    return root;
+  }
+  Node *AVLInsert(Node *&root, const T &data, bool &taller)
+  {
+    // pLeft, pRight, data
+    // **return: tree get higher?
+    if (root == NULL)
+    {
+      root = new Node(data);
+      taller = true;
+      return root;
+    }
+    else if (data < root->data)
+    {
+      root->pLeft = AVLInsert(root->pLeft, data, taller);
+      // left subtree is taller
+      if (taller)
+      {
+        if (root->balance == LH)
+          root = leftBalance(root, taller);
+        else if (root->balance == EH)
+          root->balance = LH;
+        else
+        {
+          root->balance = EH;
+          taller = false;
+        }
+      }
+      else
+      {
+        root->pRight = AVLInsert(root->pRight, data, taller);
+        if (taller)
+        {
+          if (root->balance == LH)
+          {
+            root->balance = EH;
+            taller = false;
+          }
+          else if (root->balance == EH)
+            root->balance = RH;
+          else
+            root = rightBalance(root, taller);
+        }
+      }
+    }
+    return root;
+  }
   void insert(const T &value)
   {
     // TODO
-    add(this->root, value);
+    bool taller = false;
+    AVLInsert(this->root, value, taller);
   }
 
   class Node
