@@ -98,14 +98,14 @@ public:
   }
 
   // Helping functions
-  void printScreen(string str)
+  void print(string str)
   {
     if (isTest)
     {
       cout << str << endl;
     }
   }
-  void printScreen(string str, T number)
+  void print(string str, T number)
   {
     if (isTest)
     {
@@ -211,14 +211,14 @@ public:
     // **return: tree get higher?
     if (childRoot == NULL)
     {
-      // printScreen("childRoot == NULL");
+      // print("childRoot == NULL");
       childRoot = new Node(data);
       taller = true;
       return childRoot;
     }
     else if (data < childRoot->data)
     {
-      // printScreen("data < childRoot->data");
+      // print("data < childRoot->data");
       childRoot->pLeft = AVLInsert(childRoot->pLeft, data, taller);
       // left subtree is taller
       if (taller)
@@ -236,7 +236,7 @@ public:
     }
     else
     {
-      // printScreen("data >= childRoot->data");
+      // print("data >= childRoot->data");
       childRoot->pRight = AVLInsert(childRoot->pRight, data, taller);
       if (taller)
       {
@@ -257,7 +257,7 @@ public:
   {
     // TODO
     bool taller = false;
-    // printScreen("value", value);
+    // print("value", value);
     AVLInsert(this->root, value, taller);
   }
 
@@ -277,7 +277,7 @@ public:
 int main()
 {
   AVLTree<int> avl;
-  for (int i = 0; i < 9; i++)
+  for (int i = 0; i < 20; i++)
   {
     avl.insert(i);
   }
