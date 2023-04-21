@@ -32,8 +32,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "f:/BACH_KINH_XAY/222/ctdl_gt/code/lab/week4/avl",
-      "program": "f:/BACH_KINH_XAY/222/ctdl_gt/code/lab/week4/avl/build/Debug/outDebug",
+      "cwd": "f:/BACH_KINH_XAY/222/ctdl_gt/code/lab/week4/search",
+      "program": "f:/BACH_KINH_XAY/222/ctdl_gt/code/lab/week4/search/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

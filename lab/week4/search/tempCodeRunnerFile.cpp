@@ -1,0 +1,2 @@
+
+    step += sqrt(n);
