@@ -73,19 +73,21 @@ inline void swap(E A[], T i, T j)
 template <class T>
 void Heap<T>::reheapDown(int position)
 {
-  while (!isLeaf(position))
+  if (!isLeaf(position))
   {
     // stop if position is leaf
-    int j = leftchild(position);
-    int rc = rightchild(position);
-    if ((rc < count) && (elements[rc] < elements[j]))
+    int leftChild = leftchild(position);
+    int rightChild = rightchild(position);
+    int largeChild = leftChild; // mặc định cho left child lớn hơn đi
+    if ((rightChild <= count - 1) && (elements[rightChild] > elements[leftChild]))
     {
-      j = rc; // set j to greater child's value
+      largeChild = rightChild;
     }
-    if (elements[position] < elements[j])
-      return;
-    swap(elements, position, j);
-    position = j; // move down
+    if (elements[largeChild] > elements[position])
+    {
+      swap(elements, largeChild, position);
+      reheapDown(largeChild);
+    }
   }
 }
 // Your code goes here
@@ -181,9 +183,10 @@ bool Heap<T>::pop()
 {
   if (isEmpty())
     return false;
-  swap(elements, 0, --count); // swap fist with last value
-  if (count != 0)
-    reheapDown(0); // reheap down new root value
+  elements[0] = elements[count - 1];
+  count--;
+  // swap(elements, 0, --count); // swap fist with last value
+  reheapDown(0); // reheap down new root value
   return true;
 }
 
@@ -194,13 +197,9 @@ int main()
   {
     maxHeap.push(i);
   }
-  cout << maxHeap.peek() << endl;//4
+  cout << maxHeap.peek() << endl; // 4
   maxHeap.printHeap();
   // Max Heap [ 4 3 1 0 2 ]
-  cout << maxHeap.size() << endl;       // 10
-  cout << maxHeap.isEmpty() << endl;    // 0
-  cout << maxHeap.contains(4) << endl;  // 1
-  cout << maxHeap.contains(11) << endl; // 0
   cout << maxHeap.pop() << endl;
   maxHeap.printHeap();
   // [3 1 0 2]
