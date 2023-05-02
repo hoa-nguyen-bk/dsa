@@ -1,5 +1,4 @@
 #include <iostream>
-
 using namespace std;
 
 bool isLeaf(int pos, int count) // True if pos is a leaf
