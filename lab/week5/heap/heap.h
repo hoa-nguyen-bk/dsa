@@ -31,6 +31,11 @@ public:
     delete[] elements;
   }
   void push(T item);
+  // bài 4
+  int getItem(T item);
+  void remove(T item);
+  void clear();
+  // hết bài 4
 
   bool isEmpty();
   bool contains(T item);
@@ -178,8 +183,8 @@ bool Heap<T>::contains(T item)
   return false;
 }
 
-template <class T>
-bool Heap<T>::pop()
+template <class T> 
+bool Heap<T>::pop() // pop là xóa element đầu tiên
 {
   if (isEmpty())
     return false;
