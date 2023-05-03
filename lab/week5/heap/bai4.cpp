@@ -1,6 +1,8 @@
 #include <iostream>
 #include "heap.h"
-
+//tét in git bash
+// cd lab/week5/heap
+// g++ bai4.cpp -o bai4.exe && ./bai4
 using namespace std;
 template <class T>
 int Heap<T>::getItem(T item)
@@ -51,7 +53,8 @@ void Heap<T>::clear()
   // TODO: delete all elements in heap
   //    then reallocate memory as initial state
   count = 0;
-  elements = T();
+  delete elements;
+  // elements = T();
 }
 int main()
 {
