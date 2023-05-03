@@ -11,3 +11,10 @@ xong xuôi gõ
 g++ main.cpp -o main.exe && ./main.exe
 ```
 
+mở trên wsl
+```
+cd lab/week5/heap
+```
+```
+g++ bai5.cpp -o bai5.exe && ./bai5.exe
+```
