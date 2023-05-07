@@ -22,9 +22,22 @@ protected:
 public:
   Heap()
   {
-    capacity = 10;
+    capacity = 100;
     count = 0;
     elements = new T[capacity];
+  }
+  Heap(T *start, int n)
+  {
+    capacity = 100;
+    count = n;
+    elements = new T[capacity];
+    for (int i = 0; i < n; i++)
+    {
+      cout << "i = " << i << "; el" << n << endl;
+      this->push(start[i]);
+    }
+
+    // elements = start;
   }
   ~Heap()
   {
@@ -106,6 +119,7 @@ int parent(int pos) // return parent position
 template <class T>
 void Heap<T>::push(T item)
 {
+  cout << "count = " << count << "; cap = " << capacity << endl;
   if (count >= capacity)
   {
     cout << "Heap is full" << endl;
@@ -183,7 +197,7 @@ bool Heap<T>::contains(T item)
   return false;
 }
 
-template <class T> 
+template <class T>
 bool Heap<T>::pop() // pop là xóa element đầu tiên
 {
   if (isEmpty())

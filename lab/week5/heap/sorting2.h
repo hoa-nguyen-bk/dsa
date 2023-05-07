@@ -1,8 +1,9 @@
 #define SEPARATOR "#<ab@17943918#@>#"
-#ifndef SORTING_H
-#define SORTING_H
+#ifndef SORTING2_H
+#define SORTING2_H
 #include <iostream>
 #include <queue>
+#include "heap.h"
 using namespace std;
 template <class T>
 class Sorting
@@ -52,35 +53,42 @@ public:
     }
     return;
   }
+  // class Heap
+  // {
+  // protected:
+  //   T *elements;
+  //   int capacity;
+  //   int count;
+
+  // public:
+  //   Heap()
+  //   {
+  //     capacity = 10;
+  //     count = 0;
+  //     elements = new T[capacity];
+  //   }
+  //   Heap(T *start, int n)
+  //   {
+  //     capacity = 10;
+  //     count = n;
+  //     elements = start;
+  //   }
+  //   ~Heap()
+  //   {
+  //     delete[] elements;
+  //   }
+  // };
   // Helping functions go here
-  static void heapSort(T *start, T *end)
+  static void
+  heapSort(T *start, T *end)
   {
     // TODO
-    long count = end - start;
-    int position = count / 2 - 1;
-    while (position >= 0)
-    {
-      reheapDown(start, count - 1, position);
-      position--;
-    }
-    Sorting<T>::printArray(start, end);
-
-    int last = count - 1;
-    while (last > 0)
-    {
-      // swap(0, last)
-      T temp = start[0];
-      start[0] = start[last];
-      start[last] = temp;
-      Sorting<T>::printArray(start, end);
-
-      cout << "last = " << last << endl;
-      last--;
-
-      reheapDown(start, last - 1, 0);
-    }
+    T maxvalue;
+    int size = end - start;
+    Heap<T> myHeap(start, size);
+    myHeap.printHeap();
     Sorting<T>::printArray(start, end);
   }
   //{4, 2, 9, 1} -> 1, 2, 4, 9
 };
-#endif /* SORTING_H */
+#endif /* SORTING2_H */
