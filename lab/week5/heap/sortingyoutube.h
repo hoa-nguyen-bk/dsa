@@ -50,10 +50,10 @@ public:
     {
       heapify(start, size, i);
     }
-      Sorting<T>::printArray(start, end);
+    Sorting<T>::printArray(start, end);
 
     cout << "-------" << endl;
-    for (int i = size - 1; i >= 0; i--)
+    for (int i = size - 1; i > 0; i--)
     {
       T temp = start[i];
       start[i] = start[0];
@@ -61,13 +61,8 @@ public:
       Sorting<T>::printArray(start, end);
       heapify(start, i, 0);
     }
-    T arrayRes[size];
 
-    for (int i = 0; i < size; i++)
-    {
-      arrayRes[i] = start[size - i - 1];
-    }
-    Sorting<T>::printArray(&arrayRes[0], &arrayRes[size]);
+    Sorting<T>::printArray(&start[0], &start[size]);
   }
   //{4, 2, 9, 1} -> 1, 2, 4, 9
 };
