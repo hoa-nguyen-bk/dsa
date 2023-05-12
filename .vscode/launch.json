@@ -32,8 +32,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "f:/BACH_KINH_XAY/222/ctdl_gt/code/lab/week5/heap",
-      "program": "f:/BACH_KINH_XAY/222/ctdl_gt/code/lab/week5/heap/build/Debug/outDebug",
+      "cwd": "f:/BACH_KINH_XAY/222/ctdl_gt/code/lab/week5/hash",
+      "program": "f:/BACH_KINH_XAY/222/ctdl_gt/code/lab/week5/hash/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
