@@ -214,7 +214,7 @@ Heap<T>::~Heap()
 
 template <class T>
 void Heap<T>::push(T item)
-{                              // item  = 25
+{ // item  = 25
     ensureCapacity(count + 1); //[18, 15, 13, 25 , , ]
     elements[count] = item;
     count += 1;          // count =
@@ -330,6 +330,7 @@ int Heap<T>::size()
 template <class T>
 void Heap<T>::heapify(T array[], int size)
 {
+    cout << "heapify" << endl;
     for (int idx = 0; idx < size; idx++)
         push(array[idx]);
 }
@@ -391,7 +392,6 @@ void Heap<T>::ensureCapacity(int minCapacity)
         try
         {
             T *new_data = new T[capacity];
-            // OLD: memcpy(new_data, elements, capacity*sizeof(T));
             memcpy(new_data, elements, old_capacity * sizeof(T));
             delete[] elements;
             elements = new_data;
