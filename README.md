@@ -18,3 +18,8 @@ cd lab/week5/heap
 ```
 g++ bai5.cpp -o bai5.exe && ./bai5.exe
 ```
+
+ôn thi cuối kì
+```
+cd cuoi_ki/heap
+```
